@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 
-
 using namespace std;
 
 template <typename Key, typename Value>
@@ -41,6 +40,7 @@ public:
 
 	void put(Key key, Value value)
 	{
+		N_++;
 		for (Node * i = first_; i != nullptr; i = i->next_)
 			if (i->key_ == key)
 			{ i->value_ = value; return; }
@@ -49,6 +49,8 @@ public:
 		return;
 	}
 
+	int getNum()
+	{ return N_; }
 
 
 	~SequentialSearchST()
@@ -70,7 +72,7 @@ int main(int argc, char * argv[])
 	int minlen;
 
 	if (argc == 1)
-		minlen = 1;
+		minlen = 5;
 	else
 		minlen = atoi(argv[1]);
 
@@ -89,12 +91,6 @@ int main(int argc, char * argv[])
 			st.put(word, st.get(word)->value_ + 1);
 	}
 
-	for (SequentialSearchST<string, int>::Node * i = st.first_; i != nullptr; i = i->next_)
-	{
-		cout << i->key_ << ": " << i->value_ << endl;
-	}
-
-/*
 	string max;
 	st.put(max, 0);
 
@@ -105,33 +101,6 @@ int main(int argc, char * argv[])
 	}
 
 	cout << max << ": " << st.get(max)->value_ << endl;
-*/
 
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
