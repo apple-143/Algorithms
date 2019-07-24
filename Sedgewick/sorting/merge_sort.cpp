@@ -181,7 +181,7 @@ int main()
 	print_vector(b);
 
 
-	// custom object test
+	// custom object which has '<' operator test
 	vector<CustomClass> c;
 
 	c.push_back(CustomClass(1, 2));
