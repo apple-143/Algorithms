@@ -1,9 +1,9 @@
 #include <iostream>
-#include <vector>
+#include <vector> 
 
 using namespace std;
 
-namespace insertion
+namespace heap
 {
 	class DefaultCompare
 	{
@@ -17,23 +17,42 @@ namespace insertion
 	};
 
 	template <typename RandomAccessIterator>
-	void exch(RandomAccessIterator& begin, const int& i, const int& j)
+	void exch(RandomAccessIterator begin, const int& i, const int& j)
 	{
-		auto tmp = *(begin + i);
-		*(begin + i) = *(begin + j);
-		*(begin + j) = tmp;
+		auto tmp = *(begin + i - 1);
+		*(begin + i - 1) = *(begin + j - 1);
+		*(begin + j - 1) = tmp;
+	}
+
+
+	template <typename RamdomAccessIterator, typename Comp>
+	void sink(RamdomAccessIterator begin, RamdomAccessIterator end, Comp comp, int i, int N)
+	{
+		while (2*i <= N)
+		{
+			int j = 2*i;
+
+			if (j < N && comp(*(begin + j - 1), *(begin + j)))
+				j++;
+			if (!comp(*(begin + i - 1), *(begin + j - 1)))
+				break;
+			exch(begin, i, j);
+			i = j;
+		}
 	}
 
 	template <typename RandomAccessIterator, typename Comp>
-	void insertionSort(RandomAccessIterator begin, RandomAccessIterator end, Comp comp)
+	void heapSort(RandomAccessIterator begin, RandomAccessIterator end, Comp comp)
 	{
-		for (RandomAccessIterator i = begin+1; i != end; ++i)
+		int N = end - begin;
+
+		for (int i = N/2; i >= 1; i--)
+			sink(begin, end, comp, i, N);
+
+		while (N > 1)
 		{
-			for (RandomAccessIterator j = i; j != begin; --j)
-				if (comp(*j, *(j-1)))
-					exch(begin, j-begin, j-1-begin);
-				else
-					break;
+			exch(begin, 1, N);
+			sink(begin, end, comp, 1, --N);
 		}
 	}
 
@@ -41,15 +60,15 @@ namespace insertion
 	void sort(RandomAccessIterator begin, RandomAccessIterator end)
 	{
 		DefaultCompare comp;
-		insertionSort(begin, end, comp);
+		heapSort(begin, end, comp);
 	}
 
 	template <typename RandomAccessIterator, typename Comp>
 	void sort(RandomAccessIterator begin, RandomAccessIterator end, Comp comp)
 	{
-		insertionSort(begin, end, comp);
+		heapSort(begin, end, comp);
 	}
-}
+};
 
 
 class CustomCompare
@@ -122,10 +141,10 @@ int main()
 
 	print_vector(a);
 
-	insertion::sort(a.begin(), a.end());
+	heap::sort(a.begin(), a.end());
 	print_vector(a);
 
-	insertion::sort(a.begin(), a.end(), my_compare);
+	heap::sort(a.begin(), a.end(), my_compare);
 	print_vector(a);
 
 	// string test
@@ -145,11 +164,12 @@ int main()
 
 	print_vector(b);
 
-	insertion::sort(b.begin(), b.end());
+	heap::sort(b.begin(), b.end());
 	print_vector(b);
 
-	insertion::sort(b.begin(), b.end(), my_compare);
+	heap::sort(b.begin(), b.end(), my_compare);
 	print_vector(b);
+
 
 	// custom object which has '<' operator test
 	vector<CustomClass> c;
@@ -165,10 +185,10 @@ int main()
 
 	print_vector(c);
 
-	insertion::sort(c.begin(), c.end());
+	heap::sort(c.begin(), c.end());
 	print_vector(c);
 
-	insertion::sort(c.begin(), c.end(), my_compare);
+	heap::sort(c.begin(), c.end(), my_compare);
 	print_vector(c);
 
 	return 0;

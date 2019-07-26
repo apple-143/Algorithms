@@ -5,11 +5,16 @@ using namespace std;
 
 namespace selection
 {
-	template <typename comparable>
-	bool less(comparable v, comparable w)
+	class DefaultCompare
 	{
-		return v < w;
-	}
+	private:
+	public:
+		template <typename Comparable>
+		bool operator()(const Comparable& v, const Comparable& w)
+		{
+			return v < w;
+		}
+	};
 
 	template <typename RandomAccessIterator>
 	void exch(RandomAccessIterator& begin, const int& i, const int& j)
@@ -19,21 +24,8 @@ namespace selection
 		*(begin + j) = tmp;
 	}
 
-	template <typename RandomAccessIterator>
-	void sort(RandomAccessIterator begin, RandomAccessIterator end)
-	{
-		for (RandomAccessIterator i = begin; i < end; i++)
-		{
-			RandomAccessIterator min = i;
-			for(RandomAccessIterator j = i; j < end; j++)
-				if (less(*j, *min))
-					min = j;
-			exch(begin, i-begin, min-begin);
-		}
-	}
-
 	template <typename RandomAccessIterator, typename Comp>
-	void sort(RandomAccessIterator begin, RandomAccessIterator end, Comp comp)
+	void selectionSort(RandomAccessIterator begin, RandomAccessIterator end, Comp comp)
 	{
 		for (RandomAccessIterator i = begin; i < end; i++)
 		{
@@ -44,42 +36,139 @@ namespace selection
 			exch(begin, i-begin, min-begin);
 		}
 	}
+
+	template <typename RandomAccessIterator>
+	void sort(RandomAccessIterator begin, RandomAccessIterator end)
+	{
+		DefaultCompare comp;
+		selectionSort(begin, end, comp);
+	}
+
+	template <typename RandomAccessIterator, typename Comp>
+	void sort(RandomAccessIterator begin, RandomAccessIterator end, Comp comp)
+	{
+		selectionSort(begin, end, comp);
+	}
 }
 
 class CustomCompare
 {
 private:
 public:
-	bool operator()(int a, int b)
+	template <typename Comparable>
+	bool operator()(const Comparable& a, const Comparable& b)
 	{
-		return a > b;
+		return b < a;
 	}
 };
 
-void print_vector(vector<int> a)
+template <typename T>
+void print_vector(T a)
 {
 	for (int i = 0; i < a.size(); i++)
 		cout << a[i] << " ";
 	cout << endl;
 }
 
+class CustomClass
+{
+private:
+public:
+	int a;
+	int b;
+
+	CustomClass() : a(0), b(0)
+	{ }
+	CustomClass(const int& x, const int& y) : a(x), b(y)
+	{ }
+
+	bool operator<(const CustomClass& w) const
+	{
+		if (a < w.a)
+			return true;
+		if (a == w.a)
+			if (b < w.b)
+				return true;
+
+		return false;
+	}
+};
+
+std::ostream& operator<<(ostream& os, const CustomClass& x)
+{
+	os << "(" << x.a << ", " << x.b << ")";
+	return os;
+}
+
+
 int main()
 {
-	vector<int> sample_vector;
-	sample_vector.push_back(9);
-	sample_vector.push_back(7);
-	sample_vector.push_back(1);
-	sample_vector.push_back(2);
-	sample_vector.push_back(6);
-
-	print_vector(sample_vector);
-
-	selection::sort(sample_vector.begin(), sample_vector.end());
-	print_vector(sample_vector);
-
+	// int test
+	vector<int> a;
+	a.push_back(1);
+	a.push_back(2);
+	a.push_back(5);
+	a.push_back(3);
+	a.push_back(9);
+	a.push_back(8);
+	a.push_back(6);
+	a.push_back(2);
+	a.push_back(3);
+	a.push_back(4);
+	a.push_back(9);
+	a.push_back(3);
 	CustomCompare my_compare;
-	selection::sort(sample_vector.begin(), sample_vector.end(), my_compare);
-	print_vector(sample_vector);
+
+	print_vector(a);
+
+	selection::sort(a.begin(), a.end());
+	print_vector(a);
+
+	selection::sort(a.begin(), a.end(), my_compare);
+	print_vector(a);
+
+	// string test
+	vector<string> b;
+	b.push_back("a");
+	b.push_back("ab");
+	b.push_back("c");
+	b.push_back("d");
+	b.push_back("abc");
+	b.push_back("f");
+	b.push_back("king");
+	b.push_back("h");
+	b.push_back("i");
+	b.push_back("j");
+	b.push_back("k");
+	b.push_back("l");
+
+	print_vector(b);
+
+	selection::sort(b.begin(), b.end());
+	print_vector(b);
+
+	selection::sort(b.begin(), b.end(), my_compare);
+	print_vector(b);
+
+	// custom object which has '<' operator test
+	vector<CustomClass> c;
+
+	c.push_back(CustomClass(1, 2));
+	c.push_back(CustomClass(3, 7));
+	c.push_back(CustomClass(2, 2));
+	c.push_back(CustomClass(1, 2));
+	c.push_back(CustomClass(2, 6));
+	c.push_back(CustomClass(1, 3));
+	c.push_back(CustomClass(3, 9));
+	c.push_back(CustomClass(1, 8));
+
+	print_vector(c);
+
+	selection::sort(c.begin(), c.end());
+	print_vector(c);
+
+	selection::sort(c.begin(), c.end(), my_compare);
+	print_vector(c);
 
 	return 0;
 }
