@@ -26,7 +26,7 @@ public:
 	}
 
 
-	BinarySearchST(const int& capacity)
+	BinarySearchST(int capacity)
 	{
 		keys_ = new Key[capacity];
 		vals_ = new Value[capacity];
@@ -35,17 +35,17 @@ public:
 	int Size()
 	{ return num_; }
 
-	void Put()
+	void Put(Key key, Value val)
 	{
 	}
 
-	Value Get()
+	Value Get(Key key)
 	{}
 
-	void Delete()
+	void Delete(Key key)
 	{}
 
-	bool Contains()
+	bool Contains(Key key)
 	{}
 
 	bool IsEmpty()
