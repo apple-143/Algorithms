@@ -7,7 +7,6 @@ using namespace std;
 	- Put, Get, Delete, Contains, Keys
 	- guarantee that Key is comparable
 	- resize ST
-
 */
 
 template <typename Key, typename Value>
