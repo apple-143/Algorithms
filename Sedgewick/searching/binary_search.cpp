@@ -34,12 +34,32 @@ public:
 	int Size()
 	{ return num_; }
 
+	int Rank(Key key)
+	{
+		int lo=0, hi=num_-1, mid;
+		while (lo <= hi)
+		{
+			mid = (lo + hi) / 2;
+			if (keys_[mid] > key)
+				hi = mid-1;
+			else if (keys_[mid] < key)
+				lo = mid+1;
+			else // if (keys_[mid] == key)
+				return mid;
+		}
+
+		return lo;
+	}
+
 	void Put(Key key, Value val)
 	{
 	}
 
 	Value Get(Key key)
-	{}
+	{
+		if (IsEmpty())
+			throw;
+	}
 
 	void Delete(Key key)
 	{}
@@ -66,6 +86,7 @@ public:
 int main()
 {
 	BinarySearchST<string, int> st;
+
 
 	cout << st.Size() << endl;
 
