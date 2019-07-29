@@ -4,9 +4,12 @@
 using namespace std;
 
 /*TODO
-	- Put, Get, Delete, Contains, Keys
+	- Keys
 	- guarantee that Key is comparable
 	- resize ST
+
+DONE
+	- Rank, Put, Get, Delete, Contains
 */
 
 template <typename Key, typename Value>
@@ -53,19 +56,62 @@ public:
 
 	void Put(Key key, Value val)
 	{
+		int i = Rank(key);
+		if (i < num_ && keys_[i] == key)
+		{
+			vals_[i] = val;
+			return;
+		}
+		else
+		{
+			for (int j = num_; j > i; j--)
+			{
+				keys_[j] = keys_[j-1];
+				vals_[j] = vals_[j-1];
+			}
+			keys_[i] = key;
+			vals_[i] = val;
+			num_++;
+		}
 	}
 
 	Value Get(Key key)
 	{
 		if (IsEmpty())
-			throw;
+			throw -1;
+
+		int i = Rank(key);
+		if (i < num_ && keys_[i] == key)
+			return vals_[i];
+		else
+			throw -1;
 	}
 
 	void Delete(Key key)
-	{}
+	{
+		int i = Rank(key);
+
+		if (i < num_ && keys_[i] == key)
+		{
+			for (int j = i; j < num_; j++)
+			{
+				keys_[j] = keys_[j+1];
+				vals_[j] = vals_[j+1];
+			}
+			num_--;
+		}
+		else
+			return;
+	}
 
 	bool Contains(Key key)
-	{}
+	{
+		int i = Rank(key);
+		if(i < num_ && keys_[i] == key)
+			return true;
+		else
+			return false;
+	}
 
 	bool IsEmpty()
 	{ return num_ == 0; }
@@ -74,6 +120,12 @@ public:
 	? Keys()
 	{}
 */
+
+	void PrintST()
+	{
+		for (int i = 0; i < num_; i++)
+			cout << keys_[i] << " => " << vals_[i] << "\n";
+	}
 
 	~BinarySearchST()
 	{
@@ -85,10 +137,47 @@ public:
 
 int main()
 {
-	BinarySearchST<string, int> st;
+	BinarySearchST<string, int> st(20);
+
+	st.Put("ab", 1);
+	st.Put("ac", 2);
+	st.Put("ab", 5);
+	st.Put("aa", 7);
+	st.Put("a", 7);
+	st.Put("b", 9);
+	st.Put("c", 1);
+	st.Put("d", 2);
+	st.PrintST();
+
+	cout << "\n";
+
+	st.Delete("a");
+	st.PrintST();
 
 
-	cout << st.Size() << endl;
+	try
+	{
+		cout << st.Get("ca") << endl;
+	}
+	catch(int a)
+	{
+		cout << "no key" << endl;
+	}
 
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
