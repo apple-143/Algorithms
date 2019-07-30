@@ -1,7 +1,5 @@
-#include <iostream>
-#include <string>
-
-using namespace std;
+#ifndef SW_BINARY_SEARCH
+#define SW_BINARY_SEARCH
 
 /*TODO
 	- Keys
@@ -23,8 +21,8 @@ private:
 public:
 	BinarySearchST()
 	{
-		keys_ = new Key[4];
-		vals_ = new Value[4];
+		keys_ = new Key[16];
+		vals_ = new Value[16];
 	}
 
 
@@ -47,7 +45,7 @@ public:
 				hi = mid-1;
 			else if (keys_[mid] < key)
 				lo = mid+1;
-			else // if (keys_[mid] == key)
+			else //if (keys_[mid] == key)
 				return mid;
 		}
 
@@ -116,16 +114,9 @@ public:
 	bool IsEmpty()
 	{ return num_ == 0; }
 
-/*
-	? Keys()
+	void Keys()
 	{}
-*/
 
-	void PrintST()
-	{
-		for (int i = 0; i < num_; i++)
-			cout << keys_[i] << " => " << vals_[i] << "\n";
-	}
 
 	~BinarySearchST()
 	{
@@ -134,50 +125,4 @@ public:
 	}
 };
 
-
-int main()
-{
-	BinarySearchST<string, int> st(20);
-
-	st.Put("ab", 1);
-	st.Put("ac", 2);
-	st.Put("ab", 5);
-	st.Put("aa", 7);
-	st.Put("a", 7);
-	st.Put("b", 9);
-	st.Put("c", 1);
-	st.Put("d", 2);
-	st.PrintST();
-
-	cout << "\n";
-
-	st.Delete("a");
-	st.PrintST();
-
-
-	try
-	{
-		cout << st.Get("ca") << endl;
-	}
-	catch(int a)
-	{
-		cout << "no key" << endl;
-	}
-
-	return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif /* SW_BINARY_SEARCH */
