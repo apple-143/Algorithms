@@ -3,9 +3,10 @@
 
 /*TODO
 	- make other member functions that Symbol Table needs
-	- Delete, Contains
 	- Keys
 
+DONE
+	- Contains, Delete
 */
 
 
@@ -46,21 +47,49 @@ public:
 
 	bool Contains(Key key)
 	{
+		for (Node * i = first_; i != nullptr; i = i->next_)
+			if (i->key_ = key)
+				return true;
+
+		return false;
 	}
 
 	void Put(Key key, Value value)
 	{
-		num_++;
 		for (Node * i = first_; i != nullptr; i = i->next_)
 			if (i->key_ == key)
 			{ i->value_ = value; return; }
 
 		first_ = new Node(key, value, first_);
+		num_++;
 		return;
 	}
 
 	void Delete(Key key)
 	{
+		Node * tmp;
+		if (first_->key_ == key)
+		{
+			tmp = first_;
+			first_ = first_->next_;
+			delete tmp;
+			--num_;
+
+			return;
+		}
+
+		for (Node * i = first_; i != nullptr; i = i->next_)
+		{
+			if (i->next_->key_ == key)
+			{
+				tmp = i->next_;
+				i->next_ = i->next_->next_;
+				delete tmp;
+				--num_;
+
+				return;
+			}
+		}
 	}
 
 	int Size()

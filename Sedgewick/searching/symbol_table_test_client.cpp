@@ -9,6 +9,26 @@ using std::endl;
 
 int main()
 {
+
+ 	using ST = SequentialSearchST<std::string, int>;
+
+	ST st;
+
+	st.Put("a", 1);
+	st.Put("a", 2);
+	st.Put("b", 2);
+	st.Put("c", 2);
+
+	cout << st.Size() << endl;
+
+	st.Delete("b");
+	cout << st.Size() << endl;
+	st.Delete("a");
+	cout << st.Size() << endl;
+	st.Delete("c");
+	cout << st.Size() << endl;
+
+/*
  	//using ST = SequentialSearchST<std::string, int>;
  	using ST = BinarySearchST<std::string, int>;
 
@@ -44,6 +64,6 @@ int main()
 		cout << "table is not empty" << endl;
 
 	cout << "table size is " << st.Size() << endl;
-
+*/
 	return 0;
 }
