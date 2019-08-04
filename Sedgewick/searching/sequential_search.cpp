@@ -1,5 +1,10 @@
-#ifndef SW_SEQUENTIAL_SEARCH
-#define SW_SEQUENTIAL_SEARCH
+#include <iostream>
+#include <string>
+
+
+using std::cout;
+using std::endl;
+using std::cin;
 
 /*TODO
 	- make other member functions that Symbol Table needs
@@ -48,7 +53,7 @@ public:
 	bool Contains(Key key)
 	{
 		for (Node * i = first_; i != nullptr; i = i->next_)
-			if (i->key_ = key)
+			if (i->key_ == key)
 				return true;
 
 		return false;
@@ -117,4 +122,44 @@ public:
 	}
 };
 
-#endif /* SW_SEQUENTIAL_SEARCH */
+int main()
+{
+	SequentialSearchST<std::string, int> st;
+
+	st.Put("f", 6);
+	st.Put("b", 2);
+	st.Put("c", 3);
+	st.Put("a", 1);
+	st.Put("e", 5);
+	st.Put("d", 4);
+	st.Put("g", 7);
+	st.Put("a", 11);
+
+	cout << "a: " << st.Get("a") << endl;
+	cout << "b: " << st.Get("b") << endl;
+
+	if (st.Contains("a"))
+		cout << "table has key \"a\"" << endl;
+	else
+		cout << "table doesn't have key \"a\"" << endl;
+
+	st.Delete("a");
+	if (st.Contains("a"))
+		cout << "table has key \"a\"" << endl;
+	else
+		cout << "table doesn't have key \"a\"" << endl;
+
+	if (st.IsEmpty())
+		cout << "table is empty" << endl;
+	else
+		cout << "table is not empty" << endl;
+
+	cout << "table size is " << st.Size() << endl;
+
+	for (;;)
+	{
+		break;
+	}
+
+	return 0;
+}
