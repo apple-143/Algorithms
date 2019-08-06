@@ -5,20 +5,26 @@ using std::cout;
 using std::endl;
 using std::cin;
 
+/* TODO
+	- Put, Get, Contains, Delete, Size, Keys
+
+DONE
+*/
 
 template <typename Key, typename Value>
 class BinarySearchTreeST
 {
 private:
-	class Node
+	struct Node
 	{
-	private:
-	public:
 		Key key;
 		Value val;
-		Node * left;
-		Node * right;
-		int num_;
+		Node * left = nullptr;
+		Node * right = nullptr;
+		int num = 0;
+
+		Node(Key new_key, Value new_val) : key(new_key), val(new_val)
+		{}
 	};
 
 	Node * root_;
@@ -31,15 +37,29 @@ public:
 	{
 	}
 
-	Value Get(Key key)
+	void Put(Node * x, Key key, Value val)
 	{
+	}
+
+
+	Value Get(Key key)
+	{ return Get(root_, key); }
+
+	Value Get(Node * x, Key key)
+	{
+		if (x == nullptr)
+			throw -1;
+
+		if		(key < x.key)	return Get(x.left, key);
+		else if	(x.key < key)	return Get(x.right, key);
+		else					return x.val;
 	}
 
 	bool Contains(Key key)
 	{
 	}
 
-	void Delte(Key key)
+	void Delete(Key key)
 	{
 	}
 
@@ -47,6 +67,9 @@ public:
 	{ return root_ == nullptr; }
 
 	int Size()
+	{ }
+
+	void Keys()
 	{ }
 
 	~BinarySearchTreeST()
@@ -57,6 +80,7 @@ public:
 int main()
 {
 	BinarySearchTreeST<std::string, int> st;
+
 /*
 	st.Put("f", 6);
 	st.Put("b", 2);
@@ -94,6 +118,31 @@ int main()
 		break;
 	}
 */
+
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
