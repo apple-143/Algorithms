@@ -6,9 +6,10 @@ using std::endl;
 using std::cin;
 
 /* TODO
-	- Put, Get, Contains, Delete, Size, Keys
+	- Contains, Delete, Size, Keys
 
 DONE
+	- Get, Put
 */
 
 template <typename Key, typename Value>
@@ -21,24 +22,35 @@ private:
 		Value val;
 		Node * left = nullptr;
 		Node * right = nullptr;
-		int num = 0;
+		int num = 1;
 
 		Node(Key new_key, Value new_val) : key(new_key), val(new_val)
 		{}
 	};
 
-	Node * root_;
+	Node * root_ = nullptr;
 
 public:
-	BinarySearchTreeST() : root_(nullptr)
+	BinarySearchTreeST()
 	{ }
 
-	void Put(Key key, Value val)
-	{
-	}
+	int Size(Node * node)
+	{ return node == nullptr ? 0 : node->num; }
 
-	void Put(Node * x, Key key, Value val)
+	void Put(Key key, Value val)
+	{	root_ = Put(root_, key, val); }
+
+	Node * Put(Node * x, Key key, Value val)
 	{
+		if (x == nullptr)
+			return new Node(key, val);
+
+		if		(key < x->key)	x->left = Put(x->left, key, val);
+		else if	(x->key < key)	x->right = Put(x->right, key, val);
+		else					x->val = val;
+
+		x->num = Size(x->left) + Size(x->right) + 1;
+		return x;
 	}
 
 
@@ -50,9 +62,9 @@ public:
 		if (x == nullptr)
 			throw -1;
 
-		if		(key < x.key)	return Get(x.left, key);
-		else if	(x.key < key)	return Get(x.right, key);
-		else					return x.val;
+		if		(key < x->key)	return Get(x->left, key);
+		else if	(x->key < key)	return Get(x->right, key);
+		else					return x->val;
 	}
 
 	bool Contains(Key key)
@@ -81,7 +93,6 @@ int main()
 {
 	BinarySearchTreeST<std::string, int> st;
 
-/*
 	st.Put("f", 6);
 	st.Put("b", 2);
 	st.Put("c", 3);
@@ -94,6 +105,7 @@ int main()
 	cout << "a: " << st.Get("a") << endl;
 	cout << "b: " << st.Get("b") << endl;
 
+/*
 	if (st.Contains("a"))
 		cout << "table has key \"a\"" << endl;
 	else
