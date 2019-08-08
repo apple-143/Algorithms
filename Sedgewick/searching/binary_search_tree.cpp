@@ -10,6 +10,7 @@ using std::cin;
 
 DONE
 	- Get, Put
+	- delete node dynamically made
 */
 
 template <typename Key, typename Value>
@@ -33,6 +34,15 @@ private:
 	int Size(Node * node)
 	{ return node == nullptr ? 0 : node->num; }
 
+	void DeleteNode(Node * node)
+	{
+		if (node == nullptr)
+			return;
+
+		DeleteNode(node->left);
+		DeleteNode(node->right);
+		delete node;
+	}
 
 public:
 	BinarySearchTreeST()
@@ -87,8 +97,7 @@ public:
 	{ }
 
 	~BinarySearchTreeST()
-	{
-	}
+	{ DeleteNode(root_); }
 };
 
 int main()
