@@ -6,7 +6,7 @@ using std::endl;
 using std::cin;
 
 /* TODO
-	- Contains, Delete, Size, Keys
+	- Contains, Delete, Size, Keys, 
 
 DONE
 	- Get, Put
@@ -30,12 +30,14 @@ private:
 
 	Node * root_ = nullptr;
 
+	int Size(Node * node)
+	{ return node == nullptr ? 0 : node->num; }
+
+
 public:
 	BinarySearchTreeST()
 	{ }
 
-	int Size(Node * node)
-	{ return node == nullptr ? 0 : node->num; }
 
 	void Put(Key key, Value val)
 	{	root_ = Put(root_, key, val); }
@@ -79,7 +81,7 @@ public:
 	{ return root_ == nullptr; }
 
 	int Size()
-	{ }
+	{ return Size(root_); }
 
 	void Keys()
 	{ }
@@ -93,14 +95,23 @@ int main()
 {
 	BinarySearchTreeST<std::string, int> st;
 
+	cout << st.Size() << endl;
 	st.Put("f", 6);
+	cout << st.Size() << endl;
 	st.Put("b", 2);
+	cout << st.Size() << endl;
 	st.Put("c", 3);
+	cout << st.Size() << endl;
 	st.Put("a", 1);
+	cout << st.Size() << endl;
 	st.Put("e", 5);
+	cout << st.Size() << endl;
 	st.Put("d", 4);
+	cout << st.Size() << endl;
 	st.Put("g", 7);
+	cout << st.Size() << endl;
 	st.Put("a", 11);
+	cout << st.Size() << endl;
 
 	cout << "a: " << st.Get("a") << endl;
 	cout << "b: " << st.Get("b") << endl;
