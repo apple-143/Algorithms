@@ -6,10 +6,10 @@ using std::endl;
 using std::cin;
 
 /* TODO
-	- Contains, Delete, Size, Keys, 
+	- Contains, Delete, Size, Keys, Floor, Select, Rank
 
 DONE
-	- Get, Put
+	- Get, Put, Min
 	- delete node dynamically made
 */
 
@@ -79,6 +79,18 @@ public:
 		else					return x->val;
 	}
 
+
+	Key Min()
+	{ return Min(root_)->key; }
+
+	Node * Min(Node * x)
+	{
+		if (x->left == nullptr)
+			return x;
+		else
+			return Min(x->left);
+	}
+
 	bool Contains(Key key)
 	{
 	}
@@ -124,6 +136,8 @@ int main()
 
 	cout << "a: " << st.Get("a") << endl;
 	cout << "b: " << st.Get("b") << endl;
+
+	cout << st.Min() << endl;
 
 /*
 	if (st.Contains("a"))
