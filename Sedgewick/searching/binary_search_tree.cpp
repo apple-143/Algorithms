@@ -6,7 +6,7 @@ using std::endl;
 using std::cin;
 
 /* TODO
-	- Contains, Delete, Size, Keys, Floor, Select, Rank
+	- Contains, Delete, Size, Keys, Floor, Select, Rank, Max, Ceiling
 
 DONE
 	- Get, Put, Min
@@ -87,8 +87,38 @@ public:
 	{
 		if (x->left == nullptr)
 			return x;
-		else
-			return Min(x->left);
+		return Min(x->left);
+	}
+
+	Key Floor(Key key)
+	{
+		Node * x = Floor(root_, key);
+		if (x == nullptr)
+			throw -1;
+		return x->key;
+	}
+
+	Node * Floor(Node * x, Key key)
+	{
+		/*
+		if (key == x->key)
+			return x;
+
+		else if (x->key < key && key < x->right->key)
+			return x;
+
+		else if (x->key < key)
+			return Floor(x->right, key);
+
+		else if (key < x->key && key <= x->left->key)
+			return Floor(x->left, key);
+
+		else if (key < x->key)
+			return x->left;
+		*/
+
+		if (x == nullptr)
+			return nullptr;
 	}
 
 	bool Contains(Key key)
