@@ -100,25 +100,20 @@ public:
 
 	Node * Floor(Node * x, Key key)
 	{
-		/*
-		if (key == x->key)
-			return x;
-
-		else if (x->key < key && key < x->right->key)
-			return x;
-
-		else if (x->key < key)
-			return Floor(x->right, key);
-
-		else if (key < x->key && key <= x->left->key)
-			return Floor(x->left, key);
-
-		else if (key < x->key)
-			return x->left;
-		*/
-
 		if (x == nullptr)
 			return nullptr;
+
+		if (x->key == key)
+			return x;
+
+		if (key < x->key)
+			return Floor(x->left, key);
+
+		Node * t = Floor(x->right, key);
+		if (t != nullptr)
+			return t;
+		else
+			return x;	
 	}
 
 	bool Contains(Key key)
@@ -168,6 +163,8 @@ int main()
 	cout << "b: " << st.Get("b") << endl;
 
 	cout << st.Min() << endl;
+
+	cout << st.Floor("f") << endl;
 
 /*
 	if (st.Contains("a"))
