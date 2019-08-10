@@ -6,10 +6,10 @@ using std::endl;
 using std::cin;
 
 /* TODO
-	- Contains, Delete, Size, Keys, Floor, Select, Rank, Max, Ceiling
+	- Contains, Delete, Size, Keys, Select, Rank, Max, Ceiling
 
 DONE
-	- Get, Put, Min
+	- Get, Put, Min, Floor
 	- delete node dynamically made
 */
 
@@ -90,6 +90,18 @@ public:
 		return Min(x->left);
 	}
 
+
+	Key Max()
+	{ return Max(root_)->key; }
+
+	Node * Max(Node * x)
+	{
+		if (x->right == nullptr)
+			return x;
+		return Max(x->right);
+	}
+
+
 	Key Floor(Key key)
 	{
 		Node * x = Floor(root_, key);
@@ -115,6 +127,7 @@ public:
 		else
 			return x;	
 	}
+
 
 	bool Contains(Key key)
 	{
@@ -163,6 +176,7 @@ int main()
 	cout << "b: " << st.Get("b") << endl;
 
 	cout << st.Min() << endl;
+	cout << st.Max() << endl;
 
 	cout << st.Floor("f") << endl;
 
