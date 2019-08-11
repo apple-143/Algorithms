@@ -6,10 +6,10 @@ using std::endl;
 using std::cin;
 
 /* TODO
-	- Contains, Delete, Size, Keys, Select, Rank, Max, Ceiling
+	- Contains, Delete, Size, Keys, Select, Rank
 
 DONE
-	- Get, Put, Min, Floor
+	- Get, Put, Min, Floor, Max, Ceiling
 	- delete node dynamically made
 */
 
@@ -128,6 +128,31 @@ public:
 			return x;	
 	}
 
+	Key Ceiling(Key key)
+	{
+		Node * x = Ceiling(root_, key);
+		if (x == nullptr)
+			throw -1;
+		return x->key;
+	}
+
+	Node * Ceiling(Node * x, Key key)
+	{
+		if (x == nullptr)
+			return nullptr;
+
+		if (x->key == key)
+			return x;
+
+		if (x->key < key)
+			return Ceiling(x->right, key);
+
+		Node * t = Ceiling(x->left, key);
+		if (t != nullptr)
+			return t;
+		else
+			return x;
+	}
 
 	bool Contains(Key key)
 	{
@@ -155,11 +180,7 @@ int main()
 	BinarySearchTreeST<std::string, int> st;
 
 	cout << st.Size() << endl;
-	st.Put("f", 6);
-	cout << st.Size() << endl;
 	st.Put("b", 2);
-	cout << st.Size() << endl;
-	st.Put("c", 3);
 	cout << st.Size() << endl;
 	st.Put("a", 1);
 	cout << st.Size() << endl;
@@ -179,6 +200,7 @@ int main()
 	cout << st.Max() << endl;
 
 	cout << st.Floor("f") << endl;
+	cout << st.Ceiling("c") << endl;
 
 /*
 	if (st.Contains("a"))
