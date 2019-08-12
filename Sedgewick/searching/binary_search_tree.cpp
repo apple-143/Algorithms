@@ -167,6 +167,19 @@ public:
 		else			return x;
 	}
 
+	int Rank(Key key)
+	{ return Rank(root_, key); }
+
+	int Rank(Node * x, Key key)
+	{
+		if (x == nullptr) return 0;
+
+		if		(key < x->key)	return Rank(x->left, key);
+		else if	(x->key < key)	return Rank(x->right, key) + Size(x->left) + 1;
+		else					return Size(x->left);
+	}
+
+
 	bool Contains(Key key)
 	{
 	}
@@ -229,6 +242,14 @@ int main()
 		cout << st.Select(i) << endl;
 	cout << endl;
 
+	cout << "Rank Function\n";
+	cout << st.Rank("a") << endl;
+	cout << st.Rank("b") << endl;
+	cout << st.Rank("c") << endl;
+	cout << st.Rank("d") << endl;
+	cout << st.Rank("e") << endl;
+	cout << st.Rank("f") << endl;
+	cout << st.Rank("g") << endl;
 /*
 	if (st.Contains("a"))
 		cout << "table has key \"a\"" << endl;
