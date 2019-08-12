@@ -6,10 +6,10 @@ using std::endl;
 using std::cin;
 
 /* TODO
-	- Contains, Delete, Size, Keys, Select, Rank
+	- Contains, Delete, Size, Keys, Rank
 
 DONE
-	- Get, Put, Min, Floor, Max, Ceiling
+	- Get, Put, Min, Floor, Max, Ceiling, Select
 	- delete node dynamically made
 */
 
@@ -90,7 +90,6 @@ public:
 		return Min(x->left);
 	}
 
-
 	Key Max()
 	{ return Max(root_)->key; }
 
@@ -154,6 +153,20 @@ public:
 			return x;
 	}
 
+
+	Key Select(int k)
+	{ return Select(root_, k)->key; }
+
+	Node * Select(Node * x, int k)
+	{
+		if (x == nullptr)
+			throw -1;
+		int t = Size(x->left);
+		if		(k < t)	return Select(x->left, k);
+		else if	(t < k)	return Select(x->right, k-t-1);
+		else			return x;
+	}
+
 	bool Contains(Key key)
 	{
 	}
@@ -179,6 +192,7 @@ int main()
 {
 	BinarySearchTreeST<std::string, int> st;
 
+	cout << "Size Function\n";
 	cout << st.Size() << endl;
 	st.Put("b", 2);
 	cout << st.Size() << endl;
@@ -192,15 +206,28 @@ int main()
 	cout << st.Size() << endl;
 	st.Put("a", 11);
 	cout << st.Size() << endl;
+	cout << endl;
 
+	cout << "Get Function\n";
 	cout << "a: " << st.Get("a") << endl;
 	cout << "b: " << st.Get("b") << endl;
+	cout << endl;
 
+	cout << "Min/Max Function\n";
 	cout << st.Min() << endl;
 	cout << st.Max() << endl;
+	cout << endl;
 
+	cout << "Floor/Ceiling Function\n";
 	cout << st.Floor("f") << endl;
 	cout << st.Ceiling("c") << endl;
+	cout << endl;
+
+
+	cout << "Select Function\n";
+	for (int i = 0; i < st.Size(); i++)
+		cout << st.Select(i) << endl;
+	cout << endl;
 
 /*
 	if (st.Contains("a"))
