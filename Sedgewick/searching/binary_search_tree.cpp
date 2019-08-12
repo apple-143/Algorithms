@@ -6,10 +6,10 @@ using std::endl;
 using std::cin;
 
 /* TODO
-	- Contains, Delete, Size, Keys, Rank
+	- Delete, DeleteMin, DeleteMax, Keys
 
 DONE
-	- Get, Put, Min, Floor, Max, Ceiling, Select
+	- Get, Put, Min, Floor, Max, Ceiling, Select, Rank, Size
 	- delete node dynamically made
 */
 
@@ -179,14 +179,25 @@ public:
 		else					return Size(x->left);
 	}
 
+	void DeleteMin()
+	{ root_ = DeleteMin(root_); }
 
-	bool Contains(Key key)
-	{
-	}
+	Node * DeleteMin(Node * x)
+	{}
+
+	void DeleteMax()
+	{ root_ = DeleteMax(root_); }
+
+	Node * DeleteMax(Node * x)
+	{}
 
 	void Delete(Key key)
+	{ root_ = Delete(root_, key); }
+
+	void Delete(Node * x, Key key)
 	{
 	}
+
 
 	bool IsEmpty()
 	{ return root_ == nullptr; }
