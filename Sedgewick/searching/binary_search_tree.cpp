@@ -6,11 +6,12 @@ using std::endl;
 using std::cin;
 
 /* TODO
-	- Delete, Keys
+	- Keys
 
 DONE
-	- Get, Put, Min, Floor, Max, Ceiling, Select, Rank, Size, DeleteMin, DeleteMax
+	- Get, Put, Min, Floor, Max, Ceiling, Select, Rank, Size, DeleteMin, DeleteMax, Delete
 	- delete node dynamically made
+	- PrintTree
 */
 
 template <typename Key, typename Value>
@@ -218,8 +219,36 @@ public:
 	void Delete(Key key)
 	{ root_ = Delete(root_, key); }
 
-	void Delete(Node * x, Key key)
+	Node * Delete(Node * x, Key key)
 	{
+		if (x == nullptr)
+			return nullptr;
+
+		if		(x->key < key)	x->right = Delete(x->right, key);
+		else if	(key < x->key)	x->left = Delete(x->left, key);
+		else	//(x->key == key)
+		{
+			if (x->left == nullptr)
+			{
+				Node * tmp = x->right;
+				delete x;
+				return tmp;
+			}
+			if (x->right == nullptr)
+			{
+				Node * tmp = x->left;
+				delete x;
+				return tmp;
+			}
+
+			Node * t = x;
+			x = Min(t->right);
+			x->right = DeleteMin(t->right);
+			x->left = t->left;
+		}
+
+		x->num = Size(x->left) + Size(x->right) + 1;
+		return x;
 	}
 
 
@@ -231,6 +260,18 @@ public:
 
 	void Keys()
 	{ }
+
+	void PrintTree()
+	{ PrintTree(root_); cout << endl; }
+
+	void PrintTree(Node * x)
+	{
+		if (x == nullptr)
+			return;
+		PrintTree(x->left);
+		cout << x->key << "  ";
+		PrintTree(x->right);
+	}
 
 	~BinarySearchTreeST()
 	{ DeleteNode(root_); }
@@ -254,6 +295,10 @@ int main()
 	cout << st.Size() << endl;
 	st.Put("a", 11);
 	cout << st.Size() << endl;
+	cout << endl;
+
+	cout << "BST: ";
+	st.PrintTree();
 	cout << endl;
 
 	cout << "Get Function\n";
@@ -292,13 +337,26 @@ int main()
 	st.DeleteMin();
 	cout << st.Min() << endl;
 	cout << endl;
+	cout << "BST: ";
+	st.PrintTree();
+	cout << endl;
+
 
 	cout << "DeleteMax Function\n";
 	cout << st.Max() << endl;
 	st.DeleteMax();
 	cout << st.Max() << endl;
 	cout << endl;
+	cout << "BST: ";
+	st.PrintTree();
+	cout << endl;
 
+	cout << "Delete Function\n";
+	st.PrintTree();
+	cout << endl;
+	st.Delete("b");
+	st.PrintTree();
+	cout << endl;
 /*
 	if (st.Contains("a"))
 		cout << "table has key \"a\"" << endl;
