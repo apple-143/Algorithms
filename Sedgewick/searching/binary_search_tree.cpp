@@ -6,10 +6,10 @@ using std::endl;
 using std::cin;
 
 /* TODO
-	- Delete, DeleteMax, Keys
+	- Delete, Keys
 
 DONE
-	- Get, Put, Min, Floor, Max, Ceiling, Select, Rank, Size, DeleteMin
+	- Get, Put, Min, Floor, Max, Ceiling, Select, Rank, Size, DeleteMin, DeleteMax
 	- delete node dynamically made
 */
 
@@ -184,14 +184,6 @@ public:
 
 	Node * DeleteMin(Node * x)
 	{
-	/*
-		if (x->left == nullptr)
-			return x->right;
-		x->left = DeleteMin(x->left);
-		x->num = Size(x->left) + Size(x->right) + 1;
-		return x;
-	*/
-
 		if (x->left == nullptr)
 		{
 			Node * tmp;
@@ -209,7 +201,19 @@ public:
 	{ root_ = DeleteMax(root_); }
 
 	Node * DeleteMax(Node * x)
-	{}
+	{
+		if (x->right == nullptr)
+		{
+			Node * tmp;
+			tmp = x->left;
+			delete x;
+			return tmp;
+		}
+
+		x->right = DeleteMax(x->right);
+		x->num = Size(x->left) + Size(x->right) + 1;
+		return x;
+	}
 
 	void Delete(Key key)
 	{ root_ = Delete(root_, key); }
@@ -288,6 +292,13 @@ int main()
 	st.DeleteMin();
 	cout << st.Min() << endl;
 	cout << endl;
+
+	cout << "DeleteMax Function\n";
+	cout << st.Max() << endl;
+	st.DeleteMax();
+	cout << st.Max() << endl;
+	cout << endl;
+
 /*
 	if (st.Contains("a"))
 		cout << "table has key \"a\"" << endl;
