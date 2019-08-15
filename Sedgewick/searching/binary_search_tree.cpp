@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 using std::cout;
 using std::endl;
@@ -181,6 +182,20 @@ private:
 		return x;
 	}
 
+	int Size(Node * node)
+	{ return node == nullptr ? 0 : node->num; }
+
+	std::vector<Key> Keys(Key lo, Key hi)
+	{
+		std::vector<Key> key_vec;
+		Keys(root_, key_vec, lo, hi);
+		return key_vec;
+	}
+	void Keys(Node * x, std::vector<Key>& key_vec, Key lo, Key hi)
+	{
+		key_vec.push_back(lo);
+	}
+
 	void PrintTree(Node * x)
 	{
 		if (x == nullptr)
@@ -189,9 +204,6 @@ private:
 		cout << x->key << "  ";
 		PrintTree(x->right);
 	}
-
-	int Size(Node * node)
-	{ return node == nullptr ? 0 : node->num; }
 
 	void DeleteNode(Node * node)
 	{
@@ -232,7 +244,6 @@ public:
 		return x->key;
 	}
 
-
 	Key Select(int k)
 	{ return Select(root_, k)->key; }
 	int Rank(Key key)
@@ -251,8 +262,8 @@ public:
 	int Size()
 	{ return Size(root_); }
 
-	void Keys()
-	{ }
+	std::vector<Key> Keys()
+	{ return Keys(Min(), Max()); }
 
 	void PrintTree()
 	{ PrintTree(root_); }
@@ -339,6 +350,12 @@ int main()
 	cout << endl;
 	st.Delete("b"); cout << "Delete(\"b\")" << endl;
 	st.PrintTree();
+	cout << endl;
+	cout << endl;
+
+	cout << "Keys Function\n";
+	for (auto each_key : st.Keys())
+		cout << each_key << " => " << st.Get(each_key) << endl;
 	cout << endl;
 
 	return 0;
