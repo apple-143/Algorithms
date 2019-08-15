@@ -32,26 +32,6 @@ private:
 
 	Node * root_ = nullptr;
 
-	int Size(Node * node)
-	{ return node == nullptr ? 0 : node->num; }
-
-	void DeleteNode(Node * node)
-	{
-		if (node == nullptr)
-			return;
-
-		DeleteNode(node->left);
-		DeleteNode(node->right);
-		delete node;
-	}
-
-public:
-	BinarySearchTreeST()
-	{ }
-
-
-	void Put(Key key, Value val)
-	{	root_ = Put(root_, key, val); }
 
 	Node * Put(Node * x, Key key, Value val)
 	{
@@ -65,11 +45,6 @@ public:
 		x->num = Size(x->left) + Size(x->right) + 1;
 		return x;
 	}
-
-
-	Value Get(Key key)
-	{ return Get(root_, key); }
-
 	Value Get(Node * x, Key key)
 	{
 		if (x == nullptr)
@@ -80,34 +55,17 @@ public:
 		else					return x->val;
 	}
 
-
-	Key Min()
-	{ return Min(root_)->key; }
-
 	Node * Min(Node * x)
 	{
 		if (x->left == nullptr)
 			return x;
 		return Min(x->left);
 	}
-
-	Key Max()
-	{ return Max(root_)->key; }
-
 	Node * Max(Node * x)
 	{
 		if (x->right == nullptr)
 			return x;
 		return Max(x->right);
-	}
-
-
-	Key Floor(Key key)
-	{
-		Node * x = Floor(root_, key);
-		if (x == nullptr)
-			throw -1;
-		return x->key;
 	}
 
 	Node * Floor(Node * x, Key key)
@@ -127,15 +85,6 @@ public:
 		else
 			return x;	
 	}
-
-	Key Ceiling(Key key)
-	{
-		Node * x = Ceiling(root_, key);
-		if (x == nullptr)
-			throw -1;
-		return x->key;
-	}
-
 	Node * Ceiling(Node * x, Key key)
 	{
 		if (x == nullptr)
@@ -154,10 +103,6 @@ public:
 			return x;
 	}
 
-
-	Key Select(int k)
-	{ return Select(root_, k)->key; }
-
 	Node * Select(Node * x, int k)
 	{
 		if (x == nullptr)
@@ -167,10 +112,6 @@ public:
 		else if	(t < k)	return Select(x->right, k-t-1);
 		else			return x;
 	}
-
-	int Rank(Key key)
-	{ return Rank(root_, key); }
-
 	int Rank(Node * x, Key key)
 	{
 		if (x == nullptr) return 0;
@@ -179,9 +120,6 @@ public:
 		else if	(x->key < key)	return Rank(x->right, key) + Size(x->left) + 1;
 		else					return Size(x->left);
 	}
-
-	void DeleteMin()
-	{ root_ = DeleteMin(root_); }
 
 	Node * DeleteMin(Node * x)
 	{
@@ -197,10 +135,6 @@ public:
 		x->num = Size(x->left) + Size(x->right) + 1;
 		return x;
 	}
-
-	void DeleteMax()
-	{ root_ = DeleteMax(root_); }
-
 	Node * DeleteMax(Node * x)
 	{
 		if (x->right == nullptr)
@@ -215,10 +149,6 @@ public:
 		x->num = Size(x->left) + Size(x->right) + 1;
 		return x;
 	}
-
-	void Delete(Key key)
-	{ root_ = Delete(root_, key); }
-
 	Node * Delete(Node * x, Key key)
 	{
 		if (x == nullptr)
@@ -251,6 +181,69 @@ public:
 		return x;
 	}
 
+	void PrintTree(Node * x)
+	{
+		if (x == nullptr)
+			return;
+		PrintTree(x->left);
+		cout << x->key << "  ";
+		PrintTree(x->right);
+	}
+
+	int Size(Node * node)
+	{ return node == nullptr ? 0 : node->num; }
+
+	void DeleteNode(Node * node)
+	{
+		if (node == nullptr)
+			return;
+
+		DeleteNode(node->left);
+		DeleteNode(node->right);
+		delete node;
+	}
+
+public:
+	BinarySearchTreeST()
+	{ }
+
+	void Put(Key key, Value val)
+	{	root_ = Put(root_, key, val); }
+	Value Get(Key key)
+	{ return Get(root_, key); }
+
+	Key Min()
+	{ return Min(root_)->key; }
+	Key Max()
+	{ return Max(root_)->key; }
+
+	Key Floor(Key key)
+	{
+		Node * x = Floor(root_, key);
+		if (x == nullptr)
+			throw -1;
+		return x->key;
+	}
+	Key Ceiling(Key key)
+	{
+		Node * x = Ceiling(root_, key);
+		if (x == nullptr)
+			throw -1;
+		return x->key;
+	}
+
+
+	Key Select(int k)
+	{ return Select(root_, k)->key; }
+	int Rank(Key key)
+	{ return Rank(root_, key); }
+
+	void DeleteMin()
+	{ root_ = DeleteMin(root_); }
+	void DeleteMax()
+	{ root_ = DeleteMax(root_); }
+	void Delete(Key key)
+	{ root_ = Delete(root_, key); }
 
 	bool IsEmpty()
 	{ return root_ == nullptr; }
@@ -262,16 +255,7 @@ public:
 	{ }
 
 	void PrintTree()
-	{ PrintTree(root_); cout << endl; }
-
-	void PrintTree(Node * x)
-	{
-		if (x == nullptr)
-			return;
-		PrintTree(x->left);
-		cout << x->key << "  ";
-		PrintTree(x->right);
-	}
+	{ PrintTree(root_); }
 
 	~BinarySearchTreeST()
 	{ DeleteNode(root_); }
@@ -295,10 +279,9 @@ int main()
 	cout << st.Size() << endl;
 	st.Put("a", 11);
 	cout << st.Size() << endl;
-	cout << endl;
-
 	cout << "BST: ";
 	st.PrintTree();
+	cout << endl;
 	cout << endl;
 
 	cout << "Get Function\n";
@@ -333,80 +316,30 @@ int main()
 	cout << endl;
 
 	cout << "DeleteMin Function\n";
-	cout << st.Min() << endl;
-	st.DeleteMin();
-	cout << st.Min() << endl;
-	cout << endl;
+	cout << "min: " << st.Min() << endl;
+	st.DeleteMin(); cout << "DeleteMin()" << endl;
+	cout << "min: " << st.Min() << endl;
 	cout << "BST: ";
 	st.PrintTree();
+	cout << endl;
 	cout << endl;
 
 
 	cout << "DeleteMax Function\n";
-	cout << st.Max() << endl;
-	st.DeleteMax();
-	cout << st.Max() << endl;
-	cout << endl;
+	cout << "max: " << st.Max() << endl;
+	st.DeleteMax(); cout << "DeleteMax()" << endl;
+	cout << "max: " << st.Max() << endl;
 	cout << "BST: ";
 	st.PrintTree();
+	cout << endl;
 	cout << endl;
 
 	cout << "Delete Function\n";
 	st.PrintTree();
 	cout << endl;
-	st.Delete("b");
+	st.Delete("b"); cout << "Delete(\"b\")" << endl;
 	st.PrintTree();
 	cout << endl;
-/*
-	if (st.Contains("a"))
-		cout << "table has key \"a\"" << endl;
-	else
-		cout << "table doesn't have key \"a\"" << endl;
-
-	st.Delete("a");
-	if (st.Contains("a"))
-		cout << "table has key \"a\"" << endl;
-	else
-		cout << "table doesn't have key \"a\"" << endl;
-
-	if (st.IsEmpty())
-		cout << "table is empty" << endl;
-	else
-		cout << "table is not empty" << endl;
-
-	cout << "table size is " << st.Size() << endl;
-
-
-	for (;;)
-	{
-		break;
-	}
-*/
 
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
