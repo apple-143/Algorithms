@@ -8,12 +8,14 @@ using std::cin;
 
 /* TODO
 	- Keys
+	- RotateRight, FlipColor
 	- Get, Put, Min, Floor, Max, Ceiling, Select, Rank, Size, DeleteMin, DeleteMax, Delete
 	- delete node dynamically made
 	- PrintTree
 
 DONE
 	- Node
+	- RotateLeft
 */
 
 template <typename Key, typename Value>
@@ -40,7 +42,6 @@ private:
 			this->color = color;
 		}
 	};
-
 	bool IsRed(Node * x)
 	{
 		if (x == nullptr)
@@ -48,14 +49,47 @@ private:
 		return x->color == RED;
 	}
 
+	Node * RotateLeft(Node * h)
+	{
+		Node * x = h->right;
+		h->right = x->left;
+		x->left = h;
+		x->color = h->color;
+		h->color = RED;
+		x->num = h->num;
+		h->num = Size(h->left) + Size(h->right) + 1;
+		return x;
+	}
+
+
+
 	Node * root_ = nullptr;
+
+	Node * Put(Node * h, Key key, Value val)
+	{
+		// not complete
+		if (h == nullptr)
+			return new Node(key, val, 1, RED);
+
+		if		(key < h->key)	h->left = Put(h->left, key, val);
+		else if	(h->key < key)	h->right = Put(h->right, key, val);
+		else					h->val = val;
+
+		if (IsRed(h->right) && !IsRed(h->left))
+			h = RotateLeft(h);
+
+		h->num = Size(h->left) + Size(h->right) + 1;
+		return h;
+	}
 
 public:
 	RedBlackBST()
 	{}
 
 	void Put(Key key, Value val)
-	{}
+	{
+		root_ = Put(_root, key, val);
+	}
 	Value Get(Key key)
 	{}
 
