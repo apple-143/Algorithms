@@ -8,23 +8,20 @@ using std::cin;
 
 /* TODO
 	- Keys
- 	- Get, Put, Min, Floor, Max, Ceiling, Select, Rank, DeleteMin, DeleteMax, Delete
+ 	- Get, Min, Floor, Max, Ceiling, Select, Rank, DeleteMin, DeleteMax, Delete
 	- delete node dynamically made
-	- PrintTree
 
 DONE
 	- Node
-	- Size
+	- Size, Put
 	- RotateLeft, RotateRight, FlipColor
+	- PrintTree
 */
 
 template <typename Key, typename Value>
 class RedBlackBST
 {
 private:
-	bool RED = true;
-	bool BLACK = false;
-
 	struct Node
 	{
 		Key key;
@@ -42,15 +39,22 @@ private:
 			this->color = color;
 		}
 	};
+
+	bool RED = true;
+	bool BLACK = false;
+
 	bool IsRed(Node * x)
 	{
-		if (x == nullptr)
-			return false;
+		if (x == nullptr)	return false;
 		return x->color == RED;
 	}
 
+	Node * root_ = nullptr;
+
+
 	int Size(Node * x)
 	{ return x == nullptr ? 0 : x->num; }
+
 
 	Node * RotateLeft(Node * h)
 	{
@@ -63,6 +67,7 @@ private:
 		h->num = Size(h->left) + Size(h->right) + 1;
 		return x;
 	}
+
 	Node * RotateRight(Node * h)
 	{
 		Node * x = h->left;
@@ -74,6 +79,7 @@ private:
 		h->num = Size(h->left) + Size(h->right) + 1;
 		return x;
 	}
+
 	void FlipColor(Node * h)
 	{
 		h->color = RED;
@@ -82,11 +88,8 @@ private:
 	}
 
 
-	Node * root_ = nullptr;
-
 	Node * Put(Node * h, Key key, Value val)
 	{
-		// not complete
 		if (h == nullptr)
 			return new Node(key, val, 1, RED);
 
@@ -94,11 +97,21 @@ private:
 		else if	(h->key < key)	h->right = Put(h->right, key, val);
 		else					h->val = val;
 
-		if (IsRed(h->right) && !IsRed(h->left))
-			h = RotateLeft(h);
+		if	(IsRed(h->right) && !IsRed(h->left))		h = RotateLeft(h);
+		if	(IsRed(h->left) && IsRed(h->left->left))	h = RotateRight(h);
+		if	(IsRed(h->left) && IsRed(h->right))			FlipColor(h);
 
 		h->num = Size(h->left) + Size(h->right) + 1;
 		return h;
+	}
+
+	void PrintTree(Node * x)
+	{
+		if (x == nullptr)
+			return;
+		PrintTree(x->left);
+		cout << x->key << "  ";
+		PrintTree(x->right);
 	}
 
 public:
@@ -107,7 +120,8 @@ public:
 
 	void Put(Key key, Value val)
 	{
-		root_ = Put(_root, key, val);
+		root_ = Put(root_, key, val);
+		root_->color = BLACK;
 	}
 	Value Get(Key key)
 	{}
@@ -138,13 +152,13 @@ public:
 	{}
 
 	int Size()
-	{}
+	{ return Size(root_); }
 
 	std::vector<Key> Keys()
 	{}
 
 	void PrintTree()
-	{}
+	{ PrintTree(root_); }
 
 	~RedBlackBST()
 	{}
@@ -153,7 +167,6 @@ int main()
 {
 	RedBlackBST<std::string, int> st;
 
-/*
 	cout << "Size Function\n";
 	cout << st.Size() << endl;
 	st.Put("b", 2);
@@ -173,6 +186,7 @@ int main()
 	cout << endl;
 	cout << endl;
 
+/*
 	cout << "Get Function\n";
 	cout << "a: " << st.Get("a") << endl;
 	cout << "b: " << st.Get("b") << endl;
