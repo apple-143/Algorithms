@@ -8,14 +8,14 @@ using std::cin;
 
 /* TODO
 	- Keys
-	- RotateRight, FlipColor
-	- Get, Put, Min, Floor, Max, Ceiling, Select, Rank, Size, DeleteMin, DeleteMax, Delete
+ 	- Get, Put, Min, Floor, Max, Ceiling, Select, Rank, DeleteMin, DeleteMax, Delete
 	- delete node dynamically made
 	- PrintTree
 
 DONE
 	- Node
-	- RotateLeft
+	- Size
+	- RotateLeft, RotateRight, FlipColor
 */
 
 template <typename Key, typename Value>
@@ -49,6 +49,9 @@ private:
 		return x->color == RED;
 	}
 
+	int Size(Node * x)
+	{ return x == nullptr ? 0 : x->num; }
+
 	Node * RotateLeft(Node * h)
 	{
 		Node * x = h->right;
@@ -60,7 +63,23 @@ private:
 		h->num = Size(h->left) + Size(h->right) + 1;
 		return x;
 	}
-
+	Node * RotateRight(Node * h)
+	{
+		Node * x = h->left;
+		h->left = x->right;
+		x->right = h;
+		x->color = h->color;
+		h->color = RED;
+		x->num = h->num;
+		h->num = Size(h->left) + Size(h->right) + 1;
+		return x;
+	}
+	void FlipColor(Node * h)
+	{
+		h->color = RED;
+		h->left->color = BLACK;
+		h->right->color = BLACK;
+	}
 
 
 	Node * root_ = nullptr;
