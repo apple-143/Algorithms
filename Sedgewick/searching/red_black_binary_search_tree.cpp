@@ -9,13 +9,13 @@ using std::cin;
 /* TODO
 	- Keys
  	- DeleteMin, DeleteMax, Delete
-	- delete node dynamically made
 
 DONE
 	- Node
 	- Min, Floor, Max, Ceiling, Select, Rank, Get, Size, Put, IsEmpty
 	- RotateLeft, RotateRight, FlipColor
 	- PrintTree
+	- delete node dynamically made
 */
 
 template <typename Key, typename Value>
@@ -180,6 +180,21 @@ private:
 		else					return Size(x->left);
 	}
 
+	std::vector<Key> Keys(Key lo, Key hi)
+	{
+		std::vector<Key> key_vec;
+		Keys(root_, key_vec, lo, hi);
+		return key_vec;
+	}
+	void Keys(Node * x, std::vector<Key>& key_vec, Key lo, Key hi)
+	{
+		if (x == nullptr)
+			return;
+
+		bool complo = x->key < lo;
+		bool comphi = x->key < hi;
+	}
+
 	void PrintTree(Node * x)
 	{
 		if (x == nullptr)
@@ -187,6 +202,16 @@ private:
 		PrintTree(x->left);
 		cout << x->key << "  ";
 		PrintTree(x->right);
+	}
+
+	void DeleteNode(Node * node)
+	{
+		if (node == nullptr)
+			return;
+
+		DeleteNode(node->left);
+		DeleteNode(node->right);
+		delete node;
 	}
 
 public:
@@ -241,13 +266,14 @@ public:
 	{ return Size(root_); }
 
 	std::vector<Key> Keys()
-	{}
+	{ return Keys(Min(), Max()); }
+
 
 	void PrintTree()
 	{ PrintTree(root_); }
 
 	~RedBlackBST()
-	{}
+	{ DeleteNode(root_); }
 };
 int main()
 {
@@ -275,35 +301,40 @@ int main()
 	cout << "Get Function\n";
 	cout << "a: " << st.Get("a") << endl;
 	cout << "b: " << st.Get("b") << endl;
+	st.PrintTree();
 	cout << endl;
 
-/*
 	cout << "Min/Max Function\n";
-	cout << st.Min() << endl;
-	cout << st.Max() << endl;
+	cout << "Min: " << st.Min() << endl;
+	cout << "Max: " << st.Max() << endl;
+	st.PrintTree();
 	cout << endl;
 
 	cout << "Floor/Ceiling Function\n";
-	cout << st.Floor("f") << endl;
-	cout << st.Ceiling("c") << endl;
+	cout << "Floor of f: " << st.Floor("f") << endl;
+	cout << "Ceiling of c: " << st.Ceiling("c") << endl;
+	st.PrintTree();
 	cout << endl;
 
 
 	cout << "Select Function\n";
 	for (int i = 0; i < st.Size(); i++)
-		cout << st.Select(i) << endl;
+		cout << "Select " << i << ": " <<st.Select(i) << endl;
+	st.PrintTree();
 	cout << endl;
 
 	cout << "Rank Function\n";
-	cout << st.Rank("a") << endl;
-	cout << st.Rank("b") << endl;
-	cout << st.Rank("c") << endl;
-	cout << st.Rank("d") << endl;
-	cout << st.Rank("e") << endl;
-	cout << st.Rank("f") << endl;
-	cout << st.Rank("g") << endl;
+	cout << "Rank of a: " << st.Rank("a") << endl;
+	cout << "Rank of b: " << st.Rank("b") << endl;
+	cout << "Rank of c: " << st.Rank("c") << endl;
+	cout << "Rank of d: " << st.Rank("d") << endl;
+	cout << "Rank of e: " << st.Rank("e") << endl;
+	cout << "Rank of f: " << st.Rank("f") << endl;
+	cout << "Rank of g: " << st.Rank("g") << endl;
+	st.PrintTree();
 	cout << endl;
 
+/*
 	cout << "DeleteMin Function\n";
 	cout << "min: " << st.Min() << endl;
 	st.DeleteMin(); cout << "DeleteMin()" << endl;
@@ -312,7 +343,6 @@ int main()
 	st.PrintTree();
 	cout << endl;
 	cout << endl;
-
 
 	cout << "DeleteMax Function\n";
 	cout << "max: " << st.Max() << endl;
