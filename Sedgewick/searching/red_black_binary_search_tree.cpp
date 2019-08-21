@@ -8,12 +8,12 @@ using std::cin;
 
 /* TODO
 	- Keys
- 	- Get, Min, Floor, Max, Ceiling, Select, Rank, DeleteMin, DeleteMax, Delete
+ 	- DeleteMin, DeleteMax, Delete
 	- delete node dynamically made
 
 DONE
 	- Node
-	- Size, Put
+	- Min, Floor, Max, Ceiling, Select, Rank, Get, Size, Put, IsEmpty
 	- RotateLeft, RotateRight, FlipColor
 	- PrintTree
 */
@@ -104,6 +104,81 @@ private:
 		h->num = Size(h->left) + Size(h->right) + 1;
 		return h;
 	}
+	Value Get(Node * x, Key key)
+	{
+		if (x == nullptr)
+			throw -1;
+
+		if		(key < x->key)	return Get(x->left, key);
+		else if	(x->key < key)	return Get(x->right, key);
+		else					return x->val;
+	}
+
+	Node * Min(Node * x)
+	{
+		if (x->left == nullptr)
+			return x;
+		return Min(x->left);
+	}
+	Node * Max(Node * x)
+	{
+		if (x->right == nullptr)
+			return x;
+		return Max(x->right);
+	}
+
+	Node * Floor(Node * x, Key key)
+	{
+		if (x == nullptr)
+			return nullptr;
+
+		if (x->key == key)
+			return x;
+
+		if (key < x->key)
+			return Floor(x->left, key);
+
+		Node * t = Floor(x->right, key);
+		if (t != nullptr)
+			return t;
+		else
+			return x;	
+	}
+	Node * Ceiling(Node * x, Key key)
+	{
+		if (x == nullptr)
+			return nullptr;
+
+		if (x->key == key)
+			return x;
+
+		if (x->key < key)
+			return Ceiling(x->right, key);
+
+		Node * t = Ceiling(x->left, key);
+		if (t != nullptr)
+			return t;
+		else
+			return x;
+	}
+
+	Node * Select(Node * x, int k)
+	{
+		if (x == nullptr)
+			throw -1;
+		int t = Size(x->left);
+		if		(k < t)	return Select(x->left, k);
+		else if	(t < k)	return Select(x->right, k-t-1);
+		else			return x;
+	}
+	int Rank(Node * x, Key key)
+	{
+		if (x == nullptr) return 0;
+
+		if		(key < x->key)	return Rank(x->left, key);
+		else if	(x->key < key)	return Rank(x->right, key) + Size(x->left) + 1;
+		else					return Size(x->left);
+	}
 
 	void PrintTree(Node * x)
 	{
@@ -124,22 +199,33 @@ public:
 		root_->color = BLACK;
 	}
 	Value Get(Key key)
-	{}
+	{ return Get(root_, key); }
 
 	Key Min()
-	{}
+	{ return Min(root_)->key; }
 	Key Max()
-	{}
+	{ return Max(root_)->key; }
 
 	Key Floor(Key key)
-	{}
+	{
+		Node * x = Floor(root_, key);
+		if (x == nullptr)
+			throw -1;
+		return x->key;
+	}
 	Key Ceiling(Key key)
-	{}
+	{
+		Node * x = Ceiling(root_, key);
+		if (x == nullptr)
+			throw -1;
+		return x->key;
+	}
 
 	Key Select(int k)
-	{}
+	{ return Select(root_, k)->key; }
 	int Rank(Key key)
-	{}
+	{ return Rank(root_, key); }
+
 
 	void DeleteMin()
 	{}
@@ -149,7 +235,7 @@ public:
 	{}
 
 	bool IsEmpty()
-	{}
+	{ return root_ == nullptr; }
 
 	int Size()
 	{ return Size(root_); }
@@ -186,12 +272,12 @@ int main()
 	cout << endl;
 	cout << endl;
 
-/*
 	cout << "Get Function\n";
 	cout << "a: " << st.Get("a") << endl;
 	cout << "b: " << st.Get("b") << endl;
 	cout << endl;
 
+/*
 	cout << "Min/Max Function\n";
 	cout << st.Min() << endl;
 	cout << st.Max() << endl;
