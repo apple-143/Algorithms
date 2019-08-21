@@ -7,12 +7,12 @@ using std::endl;
 using std::cin;
 
 /* TODO
-	- Keys
 
 DONE
 	- Get, Put, Min, Floor, Max, Ceiling, Select, Rank, Size, DeleteMin, DeleteMax, Delete
 	- delete node dynamically made
 	- PrintTree
+	- Keys
 */
 
 template <typename Key, typename Value>
@@ -185,16 +185,19 @@ private:
 	int Size(Node * node)
 	{ return node == nullptr ? 0 : node->num; }
 
-	std::vector<Key> Keys(Key lo, Key hi)
-	{
-		std::vector<Key> key_vec;
-		Keys(root_, key_vec, lo, hi);
-		return key_vec;
-	}
 	void Keys(Node * x, std::vector<Key>& key_vec, Key lo, Key hi)
 	{
-		key_vec.push_back(lo);
+		if (x == nullptr)
+			return;
+
+		int complo = x->key < lo ? 1 : (lo < x->key ? -1 : 0);
+		int comphi = x->key < hi ? 1 : (hi < x->key ? -1 : 0);
+
+		if	(complo < 0)					Keys(x->left, key_vec, lo, hi);
+		if	(complo <= 0 && 0 <= comphi)	key_vec.push_back(x->key);
+		if	(0 < comphi)					Keys(x->right, key_vec, lo, hi);
 	}
+
 
 	void PrintTree(Node * x)
 	{
@@ -264,6 +267,12 @@ public:
 
 	std::vector<Key> Keys()
 	{ return Keys(Min(), Max()); }
+	std::vector<Key> Keys(Key lo, Key hi)
+	{
+		std::vector<Key> key_vec;
+		Keys(root_, key_vec, lo, hi);
+		return key_vec;
+	}
 
 	void PrintTree()
 	{ PrintTree(root_); }
@@ -326,6 +335,7 @@ int main()
 	cout << st.Rank("g") << endl;
 	cout << endl;
 
+/*
 	cout << "DeleteMin Function\n";
 	cout << "min: " << st.Min() << endl;
 	st.DeleteMin(); cout << "DeleteMin()" << endl;
@@ -352,11 +362,18 @@ int main()
 	st.PrintTree();
 	cout << endl;
 	cout << endl;
+*/
 
 	cout << "Keys Function\n";
+	cout << "All keys\n";
 	for (auto each_key : st.Keys())
 		cout << each_key << " => " << st.Get(each_key) << endl;
+	cout << "Between b, e\n";
+	for (auto each_key : st.Keys("b", "e"))
+		cout << each_key << " => " << st.Get(each_key) << endl;
+	st.PrintTree();
 	cout << endl;
+
 
 	return 0;
 }

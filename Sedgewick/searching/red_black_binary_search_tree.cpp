@@ -7,10 +7,10 @@ using std::endl;
 using std::cin;
 
 /* TODO
-	- Keys
  	- DeleteMin, DeleteMax, Delete
 
 DONE
+	- Keys
 	- Node
 	- Min, Floor, Max, Ceiling, Select, Rank, Get, Size, Put, IsEmpty
 	- RotateLeft, RotateRight, FlipColor
@@ -180,19 +180,17 @@ private:
 		else					return Size(x->left);
 	}
 
-	std::vector<Key> Keys(Key lo, Key hi)
-	{
-		std::vector<Key> key_vec;
-		Keys(root_, key_vec, lo, hi);
-		return key_vec;
-	}
 	void Keys(Node * x, std::vector<Key>& key_vec, Key lo, Key hi)
 	{
 		if (x == nullptr)
 			return;
 
-		bool complo = x->key < lo;
-		bool comphi = x->key < hi;
+		int complo = x->key < lo ? 1 : (lo < x->key ? -1 : 0);
+		int comphi = x->key < hi ? 1 : (hi < x->key ? -1 : 0);
+
+		if	(complo < 0)					Keys(x->left, key_vec, lo, hi);
+		if	(complo <= 0 && 0 <= comphi)	key_vec.push_back(x->key);
+		if	(0 < comphi)					Keys(x->right, key_vec, lo, hi);
 	}
 
 	void PrintTree(Node * x)
@@ -267,7 +265,12 @@ public:
 
 	std::vector<Key> Keys()
 	{ return Keys(Min(), Max()); }
-
+	std::vector<Key> Keys(Key lo, Key hi)
+	{
+		std::vector<Key> key_vec;
+		Keys(root_, key_vec, lo, hi);
+		return key_vec;
+	}
 
 	void PrintTree()
 	{ PrintTree(root_); }
@@ -361,11 +364,17 @@ int main()
 	cout << endl;
 	cout << endl;
 
+*/
 	cout << "Keys Function\n";
+	cout << "All keys\n";
 	for (auto each_key : st.Keys())
 		cout << each_key << " => " << st.Get(each_key) << endl;
+	cout << "Between b, e\n";
+	for (auto each_key : st.Keys("b", "e"))
+		cout << each_key << " => " << st.Get(each_key) << endl;
+	st.PrintTree();
 	cout << endl;
-*/
+
 	return 0;
 }
 
