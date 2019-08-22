@@ -7,6 +7,7 @@ using std::endl;
 using std::cin;
 
 /* TODO
+	- PrintTreeStructure
  	- DeleteMin, DeleteMax, Delete
 
 DONE
@@ -350,14 +351,20 @@ public:
 	void PrintTree()
 	{ PrintTree(root_); }
 
-	void PushData(Node * x, std::vector<Key>& container, int height)
+	void PushData(Node * x, std::vector<Key>& container, int height, int col)
 	{
+		if (x == nullptr)
+			return;
+
+		container[(1<<(height-1)) + col] = x->key;
+		PushData(x->left, container, height + 1, col * 2);
+		PushData(x->right, container, height + 1, col * 2 + 1);
 	}
 
 	void PrintTreeStructure()
 	{
 		int total_num = root_->num;
-		int height = 3;
+		int height = 1 + 2;
 		//while (true)
 		for (int i = 0; i < 10; i++)
 		{
@@ -366,11 +373,20 @@ public:
 			else
 				break;
 		}
-		cout << "height: " << height << endl;
 
-		std::vector<Key> print_ordered_key;
+		std::vector<Key> print_ordered_key(2<<height);
 
-		PushData(root_, print_ordered_key, 1);
+		PushData(root_, print_ordered_key, 1, 0);
+
+		for (int h = 1; h < height; h++)
+		{
+			for (int c = 0; c < (1<<(h-1)); c++)
+			{
+				cout << print_ordered_key[(1<<(h-1)) + c] << "   ";
+			}
+			cout << endl;
+		}
+		cout << endl;	
 	}
 
 	~RedBlackBST()
