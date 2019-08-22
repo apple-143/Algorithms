@@ -185,25 +185,12 @@ private:
 	{
 		if (x->left == nullptr)
 		{
-			if (x->right == nullptr)
-			{
-				delete x;
-				return nullptr;
-			}
-			else if (!IsRed(x->right->left))
-			{
-				Node * tmp;
-				tmp = x->right;
+			Node * tmp;
+			tmp = x->right;
+			if (tmp != nullptr)
 				tmp->color = x->color;
-				delete x;
-				return tmp;
-			}
-			else // if (x->right != nullptr && IsRed(x->right->left))
-			{
-				Node * tmp;
-				tmp = x->right;
-				delete x;
-			}
+			delete x;
+			return tmp;
 		}
 
 		x->left = DeleteMin(x->left);
@@ -218,19 +205,25 @@ private:
 	}
 	Node * DeleteMax(Node * x)
 	{
-/*
 		if (x->right == nullptr)
 		{
 			Node * tmp;
 			tmp = x->left;
+			if (tmp != nullptr)
+				tmp->color = x->color;
 			delete x;
 			return tmp;
 		}
 
 		x->right = DeleteMax(x->right);
+
+		if	(IsRed(x->right) && !IsRed(x->left))		x = RotateLeft(x);
+		if	(IsRed(x->left) && IsRed(x->left->left))	x = RotateRight(x);
+		if	(IsRed(x->left) && IsRed(x->right))			FlipColor(x);
+
 		x->num = Size(x->left) + Size(x->right) + 1;
+
 		return x;
-*/
 	}
 	Node * Delete(Node * x, Key key)
 	{
@@ -459,24 +452,30 @@ int main()
 	cout << "BST: \n";
 	st.PrintTreeStructure();
 	cout << "DeleteMin Function\n";
+	cout << "size: " << st.Size() << endl;
 	cout << "min: " << st.Min() << endl;
 	st.DeleteMin(); cout << "DeleteMin()" << endl;
+	cout << "size: " << st.Size() << endl;
 	cout << "min: " << st.Min() << endl;
 	cout << "BST: \n";
 	st.PrintTreeStructure();
 	cout << endl;
 	cout << endl;
 
-/*
+	cout << "BST: \n";
+	st.PrintTreeStructure();
 	cout << "DeleteMax Function\n";
+	cout << "size: " << st.Size() << endl;
 	cout << "max: " << st.Max() << endl;
 	st.DeleteMax(); cout << "DeleteMax()" << endl;
+	cout << "size: " << st.Size() << endl;
 	cout << "max: " << st.Max() << endl;
-	cout << "BST: ";
-	st.PrintTree();
+	cout << "BST: \n";
+	st.PrintTreeStructure();
 	cout << endl;
 	cout << endl;
 
+/*
 	cout << "Delete Function\n";
 	st.PrintTree();
 	cout << endl;
