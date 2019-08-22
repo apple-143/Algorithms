@@ -7,7 +7,7 @@ using std::endl;
 using std::cin;
 
 /* TODO
-	- PrintTreeStructure
+	- PrintTreeStructure(need to edit)
  	- DeleteMin, DeleteMax, Delete
 
 DONE
@@ -183,10 +183,14 @@ private:
 
 	Node * DeleteMin(Node * x)
 	{
-/*
 		if (x->left == nullptr)
 		{
-			if (x->right == nullptr ? true : !IsRed(x->right->left))
+			if (x->right == nullptr)
+			{
+				delete x;
+				return nullptr;
+			}
+			else if (!IsRed(x->right->left))
 			{
 				Node * tmp;
 				tmp = x->right;
@@ -194,19 +198,23 @@ private:
 				delete x;
 				return tmp;
 			}
-			else
+			else // if (x->right != nullptr && IsRed(x->right->left))
 			{
 				Node * tmp;
 				tmp = x->right;
 				delete x;
-				
 			}
 		}
 
 		x->left = DeleteMin(x->left);
+
+		if	(IsRed(x->right) && !IsRed(x->left))		x = RotateLeft(x);
+		if	(IsRed(x->left) && IsRed(x->left->left))	x = RotateRight(x);
+		if	(IsRed(x->left) && IsRed(x->right))			FlipColor(x);
+
 		x->num = Size(x->left) + Size(x->right) + 1;
+
 		return x;
-*/
 	}
 	Node * DeleteMax(Node * x)
 	{
@@ -374,19 +382,16 @@ public:
 				break;
 		}
 
-		std::vector<Key> print_ordered_key(2<<height);
+		std::vector<Key> print_ordered_key(1<<height, " ");
 
 		PushData(root_, print_ordered_key, 1, 0);
 
 		for (int h = 1; h < height; h++)
 		{
 			for (int c = 0; c < (1<<(h-1)); c++)
-			{
 				cout << print_ordered_key[(1<<(h-1)) + c] << "   ";
-			}
 			cout << endl;
 		}
-		cout << endl;	
 	}
 
 	~RedBlackBST()
@@ -395,7 +400,7 @@ public:
 int main()
 {
 	RedBlackBST<std::string, int> st;
-/*
+
 	cout << "Size Function\n";
 	cout << st.Size() << endl;
 	st.Put("b", 2);
@@ -410,8 +415,8 @@ int main()
 	cout << st.Size() << endl;
 	st.Put("a", 11);
 	cout << st.Size() << endl;
-	cout << "BST: ";
-	st.PrintTree();
+	cout << "BST: \n";
+	st.PrintTreeStructure();
 	cout << endl;
 	cout << endl;
 
@@ -451,15 +456,18 @@ int main()
 	st.PrintTree();
 	cout << endl;
 
+	cout << "BST: \n";
+	st.PrintTreeStructure();
 	cout << "DeleteMin Function\n";
 	cout << "min: " << st.Min() << endl;
 	st.DeleteMin(); cout << "DeleteMin()" << endl;
 	cout << "min: " << st.Min() << endl;
-	cout << "BST: ";
-	st.PrintTree();
+	cout << "BST: \n";
+	st.PrintTreeStructure();
 	cout << endl;
 	cout << endl;
 
+/*
 	cout << "DeleteMax Function\n";
 	cout << "max: " << st.Max() << endl;
 	st.DeleteMax(); cout << "DeleteMax()" << endl;
@@ -468,9 +476,7 @@ int main()
 	st.PrintTree();
 	cout << endl;
 	cout << endl;
-*/
 
-/*
 	cout << "Delete Function\n";
 	st.PrintTree();
 	cout << endl;
@@ -502,6 +508,7 @@ int main()
 	cout << endl;
 
 */
+/*
 	st.Put("h", 1);
 	st.Put("g", 1);
 	st.Put("f", 1);
@@ -512,6 +519,7 @@ int main()
 	st.Put("a", 1);
 	st.PrintTree();
 	cout << endl;
+*/
 /*
 	st.DeleteMin();
 	st.PrintTree();
@@ -519,7 +527,6 @@ int main()
 */
 
 
-	st.PrintTreeStructure();
 	return 0;
 }
 
