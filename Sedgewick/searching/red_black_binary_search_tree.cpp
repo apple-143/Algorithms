@@ -7,7 +7,6 @@ using std::endl;
 using std::cin;
 
 /* TODO
-	- PrintTreeStructure(need to edit)
 
 DONE
 	- Keys
@@ -15,6 +14,7 @@ DONE
 	- Min, Floor, Max, Ceiling, Select, Rank, Get, Size, Put, IsEmpty
 	- RotateLeft, RotateRight, FlipColor
 	- PrintTree
+	- PrintTreeStructure(need to edit)
  	- DeleteMin, DeleteMax, Delete
 	- delete node dynamically made
 */
@@ -393,8 +393,11 @@ public:
 
 		for (int h = 1; h < height; h++)
 		{
+			std::string padding;
+			for (int i = 0; i < (1<<(height - h)) - 1; i++)
+				padding += " ";
 			for (int c = 0; c < (1<<(h-1)); c++)
-				cout << print_ordered_key[(1<<(h-1)) + c] << "   ";
+				cout << print_ordered_key[(1<<(h-1)) + c] << padding;
 			cout << endl;
 		}
 	}
@@ -513,7 +516,6 @@ int main()
 	cout << endl;
 	cout << endl;
 
-/*
 	st.Put("b", 2);
 	st.Put("a", 1);
 	st.Put("e", 5);
@@ -533,25 +535,69 @@ int main()
 		cout << each_key << " => " << st.Get(each_key) << endl;
 	st.PrintTree();
 	cout << endl;
+	cout << endl;
+	st.PrintTreeStructure();
+	cout << endl;
 
-*/
-/*
-	st.Put("h", 1);
-	st.Put("g", 1);
-	st.Put("f", 1);
-	st.Put("e", 1);
-	st.Put("d", 1);
-	st.Put("c", 1);
-	st.Put("b", 1);
-	st.Put("a", 1);
-	st.PrintTree();
+	RedBlackBST<std::string, int> sst;
+
+	sst.Put("a", 1);
+	sst.Put("b", 1);
+	sst.Put("c", 1);
+	sst.Put("d", 1);
+	sst.Put("e", 1);
+	sst.Put("f", 1);
+	sst.Put("g", 1);
+	sst.Put("h", 1);
+	sst.Put("i", 1);
+	sst.Put("j", 1);
+	sst.Put("k", 1);
+	sst.Put("l", 1);
+	sst.Put("m", 1);
+	sst.Put("n", 1);
+	sst.Put("o", 1);
+	sst.Put("p", 1);
+	sst.Put("q", 1);
+	sst.Put("r", 1);
+	sst.Put("s", 1);
+	sst.Put("t", 1);
+	sst.Put("u", 1);
+	sst.Put("w", 1);
+	sst.Put("x", 1);
+	sst.Put("y", 1);
+	sst.Put("z", 1);
+	sst.PrintTreeStructure();
 	cout << endl;
-*/
-/*
-	st.DeleteMin();
-	st.PrintTree();
+
+	RedBlackBST<std::string, int> ssst;
+
+	ssst.Put("z", 1);
+	ssst.Put("y", 1);
+	ssst.Put("x", 1);
+	ssst.Put("w", 1);
+	ssst.Put("u", 1);
+	ssst.Put("t", 1);
+	ssst.Put("s", 1);
+	ssst.Put("r", 1);
+	ssst.Put("q", 1);
+	ssst.Put("p", 1);
+	ssst.Put("o", 1);
+	ssst.Put("n", 1);
+	ssst.Put("m", 1);
+	ssst.Put("l", 1);
+	ssst.Put("k", 1);
+	ssst.Put("j", 1);
+	ssst.Put("i", 1);
+	ssst.Put("h", 1);
+	ssst.Put("g", 1);
+	ssst.Put("f", 1);
+	ssst.Put("e", 1);
+	ssst.Put("d", 1);
+	ssst.Put("c", 1);
+	ssst.Put("b", 1);
+	ssst.Put("a", 1);
+	ssst.PrintTreeStructure();
 	cout << endl;
-*/
 
 
 	return 0;
