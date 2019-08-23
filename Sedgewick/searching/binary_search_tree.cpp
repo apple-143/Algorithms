@@ -172,10 +172,10 @@ private:
 				return tmp;
 			}
 
-			Node * t = x;
-			x = Min(t->right);
-			x->right = DeleteMin(t->right);
-			x->left = t->left;
+			Node * tmp = Min(x->right);
+			x->key = tmp->key;
+			x->val = tmp->val;
+			x->right = DeleteMin(tmp->right);
 		}
 
 		x->num = Size(x->left) + Size(x->right) + 1;
@@ -335,7 +335,7 @@ int main()
 	cout << st.Rank("g") << endl;
 	cout << endl;
 
-/*
+
 	cout << "DeleteMin Function\n";
 	cout << "min: " << st.Min() << endl;
 	st.DeleteMin(); cout << "DeleteMin()" << endl;
@@ -344,7 +344,6 @@ int main()
 	st.PrintTree();
 	cout << endl;
 	cout << endl;
-
 
 	cout << "DeleteMax Function\n";
 	cout << "max: " << st.Max() << endl;
@@ -362,7 +361,7 @@ int main()
 	st.PrintTree();
 	cout << endl;
 	cout << endl;
-*/
+
 
 	cout << "Keys Function\n";
 	cout << "All keys\n";

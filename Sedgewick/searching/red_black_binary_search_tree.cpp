@@ -8,7 +8,6 @@ using std::cin;
 
 /* TODO
 	- PrintTreeStructure(need to edit)
- 	- DeleteMin, DeleteMax, Delete
 
 DONE
 	- Keys
@@ -16,6 +15,7 @@ DONE
 	- Min, Floor, Max, Ceiling, Select, Rank, Get, Size, Put, IsEmpty
 	- RotateLeft, RotateRight, FlipColor
 	- PrintTree
+ 	- DeleteMin, DeleteMax, Delete
 	- delete node dynamically made
 */
 
@@ -227,7 +227,6 @@ private:
 	}
 	Node * Delete(Node * x, Key key)
 	{
-/*
 		if (x == nullptr)
 			return nullptr;
 
@@ -238,27 +237,40 @@ private:
 			if (x->left == nullptr)
 			{
 				Node * tmp = x->right;
-				tmp->color = x->color;
+				if (tmp != nullptr)
+					tmp->color = x->color;
 				delete x;
 				return tmp;
 			}
 			if (x->right == nullptr)
 			{
 				Node * tmp = x->left;
-				tmp->color = x->color;
+				if (tmp != nullptr)
+					tmp->color = x->color;
 				delete x;
 				return tmp;
 			}
-
+/*
 			Node * t = x;
 			x = Min(t->right);
+			bool tmp_color = t->color;
 			x->right = DeleteMin(t->right);
 			x->left = t->left;
+*/
+			Node * tmp = Min(x->right);
+			x->key = tmp->key;
+			x->val = tmp->val;
+			// x->color = x->color;
+			x->right = DeleteMin(x->right);
 		}
 
+		if	(IsRed(x->right) && !IsRed(x->left))		x = RotateLeft(x);
+		if	(IsRed(x->left) && IsRed(x->left->left))	x = RotateRight(x);
+		if	(IsRed(x->left) && IsRed(x->right))			FlipColor(x);
+
 		x->num = Size(x->left) + Size(x->right) + 1;
+
 		return x;
-*/
 	}
 
 	void Keys(Node * x, std::vector<Key>& key_vec, Key lo, Key hi)
@@ -449,6 +461,20 @@ int main()
 	st.PrintTree();
 	cout << endl;
 
+
+
+	st.Put("b", 2);
+	st.Put("a", 1);
+	st.Put("e", 5);
+	st.Put("d", 4);
+	st.Put("g", 7);
+	st.Put("a", 11);
+	st.Put("h", 7);
+	st.Put("i", 9);
+	st.Put("j", 7);
+	st.Put("k", 2);
+	st.Put("l", 1);
+
 	cout << "BST: \n";
 	st.PrintTreeStructure();
 	cout << "DeleteMin Function\n";
@@ -475,16 +501,18 @@ int main()
 	cout << endl;
 	cout << endl;
 
-/*
+	cout << "BST: \n";
+	st.PrintTreeStructure();
 	cout << "Delete Function\n";
-	st.PrintTree();
+	cout << "size: " << st.Size() << endl;
 	cout << endl;
 	st.Delete("b"); cout << "Delete(\"b\")" << endl;
-	st.PrintTree();
+	cout << "size: " << st.Size() << endl;
+	cout << "BST: \n";
+	st.PrintTreeStructure();
 	cout << endl;
 	cout << endl;
 
-*/
 /*
 	st.Put("b", 2);
 	st.Put("a", 1);
