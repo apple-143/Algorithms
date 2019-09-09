@@ -111,18 +111,26 @@ public:
 };
 
 
-template <typename Key, typename Value>
+template <unsigned int Size>
+unsigned int HashCode(int x)
+{ return x % Size; }
+
+
+template <typename Key, typename Value, int Size>
 class SeparateChainingHashST
 {
 private:
 	int M_;
-	int hash(Key key)
-	{ return 0; }
+	SequentialSearchST<Key, Value> hashtable[Size];
 
 public:
 	SeparateChainingHashST()
 	{
-		SequentialSearchST<Key, Value> hashtable[100];
+	}
+
+	void Put(Key key, Value val)
+	{
+		hashtable[HashCode<Size>(key)].Put(key, val);
 	}
 
 
@@ -131,6 +139,38 @@ public:
 };
 
 
+
+int main()
+{
+	SeparateChainingHashST<int, int, 100> st;
+
+	st.Put(105, 20);
+
+
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 template <int Size>
 class HashInt
 {
@@ -176,44 +216,5 @@ ostream& operator<<(ostream &os, const HashInt<Size> &x)
 	os << x.Value();
 	return os;
 }
-
-
-int main()
-{
-	SeparateChainingHashST<int, int> st;
-
-	HashInt<100> a;
-
-	a.operator=(105);
-
-	std::cout << a << std::endl;
-
-	std::cout << a.HashCode() << std::endl;
-
-
-
-
-	return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/
 
