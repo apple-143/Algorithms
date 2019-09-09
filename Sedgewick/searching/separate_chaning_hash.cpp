@@ -1,4 +1,8 @@
 #include <iostream>
+#include <string>
+
+using namespace std;
+
 
 template <typename Key, typename Value>
 class SequentialSearchST
@@ -112,17 +116,104 @@ class SeparateChainingHashST
 {
 private:
 	int M_;
-	SequentialSearchST<Key, Value> st_;
+	int hash(Key key)
+	{ return 0; }
+
 public:
 	SeparateChainingHashST()
-	{}
+	{
+		SequentialSearchST<Key, Value> hashtable[100];
+	}
+
 
 	~SeparateChainingHashST()
 	{}
 };
 
+
+template <int Size>
+class HashInt
+{
+private:
+	int i = 0;
+
+public:
+	HashInt()
+	{}
+
+	int Value() const
+	{ return this->i; }
+
+	int HashCode()
+	{ return this->i % Size; }
+
+	HashInt& operator=(const int j)
+	{
+		this->i = j;
+		return *this;
+	}
+
+	bool operator<(const HashInt x)
+	{ return this->i < x.i; }
+	bool operator<=(const HashInt x)
+	{ return this->i <= x.i; }
+
+	bool operator>(const HashInt x)
+	{ return this->i > x.i; }
+	bool operator>=(const HashInt x)
+	{ return this->i >= x.i; }
+
+	bool operator==(const HashInt x)
+	{ return this->i == x.i; }
+
+	~HashInt()
+	{}
+};
+
+template <int Size>
+ostream& operator<<(ostream &os, const HashInt<Size> &x)
+{
+	os << x.Value();
+	return os;
+}
+
+
 int main()
 {
+	SeparateChainingHashST<int, int> st;
+
+	HashInt<100> a;
+
+	a.operator=(105);
+
+	std::cout << a << std::endl;
+
+	std::cout << a.HashCode() << std::endl;
+
+
+
 
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
