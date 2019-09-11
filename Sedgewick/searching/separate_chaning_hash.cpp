@@ -129,9 +129,10 @@ public:
 	}
 
 	void Put(Key key, Value val)
-	{
-		hashtable[HashCode<Size>(key)].Put(key, val);
-	}
+	{ hashtable[HashCode<Size>(key)].Put(key, val); }
+
+	Value Get(Key key)
+	{ return hashtable[HashCode<Size>(key)].Get(key); }
 
 
 	~SeparateChainingHashST()
@@ -145,6 +146,8 @@ int main()
 	SeparateChainingHashST<int, int, 100> st;
 
 	st.Put(105, 20);
+
+	std::cout << st.Get(105) << std::endl;
 
 
 	return 0;
