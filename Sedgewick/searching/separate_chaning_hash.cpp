@@ -134,6 +134,9 @@ public:
 	Value Get(Key key)
 	{ return hashtable[HashCode<Size>(key)].Get(key); }
 
+	void Delete(Key key)
+	{ return hashtable[HashCode<Size>(key)].Delete(key); }
+
 
 	~SeparateChainingHashST()
 	{}
@@ -146,8 +149,17 @@ int main()
 	SeparateChainingHashST<int, int, 100> st;
 
 	st.Put(105, 20);
+	st.Put(5, 27);
+	st.Put(6, 30);
 
 	std::cout << st.Get(105) << std::endl;
+	std::cout << st.Get(5) << std::endl;
+	std::cout << st.Get(6) << std::endl;
+
+	st.Delete(5);
+	std::cout << st.Get(105) << std::endl;
+//	std::cout << st.Get(5) << std::endl;
+	std::cout << st.Get(6) << std::endl;
 
 
 	return 0;
