@@ -1,2 +1,7 @@
 # Test
 Sedgewick/test/
+Sedgewick/algs4-data/
+*test.cpp
+
+# out
+*.out
