@@ -5,9 +5,9 @@
 
 /*TODO
 	- remove in iterator (without previous Node info?)
-	- hasnext in iterator
 done
 	- delete dynamically allocated momery
+	- hasnext in iterator
 */
 template <typename T>
 class Bag {
@@ -43,6 +43,10 @@ public:
 		T operator*() { return cur_->item; }
 
 		bool operator!=(const iterator& x) { return cur_ != x.cur_; }
+
+		bool HasNext() {
+			return cur_->next != nullptr;
+		}
 
 	};
 
