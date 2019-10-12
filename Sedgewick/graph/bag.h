@@ -4,6 +4,10 @@
 #include <vector>
 
 /*TODO
+	- remove in iterator (without previous Node info?)
+	- hasnext in iterator
+done
+	- delete dynamically allocated momery
 */
 template <typename T>
 class Bag {
@@ -15,31 +19,34 @@ private:
 
 	Node * first;
 
+	void Delete() {
+		Node * tmp = first;
+		if (first != nullptr) {
+			first = first->next;
+			delete tmp;
+		}
+	}
+
 public:
 	class iterator {
 	private:
 		Node * cur_;
 
 	public:
-		iterator(Node * node) {
-			cur_ = node;
-		}
+		iterator(Node * node) : cur_(node) {}
 
 		iterator& operator++() {
 			cur_ = cur_->next;
 			return *this;
 		}
 
-		T operator*() {
-			return cur_->item;
-		}
+		T operator*() { return cur_->item; }
 
-		bool operator!=(const iterator& x) {
-			return cur_ != x.cur_;
-		}
+		bool operator!=(const iterator& x) { return cur_ != x.cur_; }
+
 	};
 
-	Bag () : first(nullptr) {}
+	Bag() : first(nullptr) {}
 
 	void Add(T item) {
 		Node * old_first = first;
@@ -48,12 +55,13 @@ public:
 		first->next = old_first;
 	}
 
-	iterator begin() {
-		return iterator(first);
-	}
+	iterator begin() { return iterator(first); }
 
-	iterator end() {
-		return iterator(nullptr);
+	iterator end() { return iterator(nullptr); }
+
+	~Bag() {
+		while (first != nullptr)
+			Delete();
 	}
 };
 
