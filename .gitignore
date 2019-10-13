@@ -5,3 +5,6 @@ Sedgewick/algs4-data/
 
 # out
 *.out
+
+#tmp
+*.swp
