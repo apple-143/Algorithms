@@ -1,8 +1,6 @@
 #ifndef BAG_TW_H_
 #define BAG_TW_H_
 
-#include <vector>
-
 /*TODO
 	- remove in iterator (without previous Node info?)
 done
@@ -12,6 +10,7 @@ done
 template <typename T>
 class Bag {
 private:
+public:
 	struct Node {
 		T item;
 		Node * next;
@@ -27,12 +26,11 @@ private:
 		}
 	}
 
-public:
 	class iterator {
 	private:
+	public:
 		Node * cur_;
 
-	public:
 		iterator(Node * node) : cur_(node) {}
 
 		iterator& operator++() {
@@ -47,7 +45,6 @@ public:
 		bool HasNext() {
 			return cur_->next != nullptr;
 		}
-
 	};
 
 	Bag() : first(nullptr) {}

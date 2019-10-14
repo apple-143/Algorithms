@@ -1,59 +1,42 @@
 #ifndef GRAPH_TW_H_
 #define GRAPH_TW_H_
 
-#include <vector>
+#include "./bag.h"
 #include <string>
 
 
 /*TODO
-	- constructor
-	- AddEdge
 	- Adj
 	- ToString
+	- destructor
 
 done
+	- constructor
+	- AddEdge
 */
-template <typename T>
-class Bag {
-private:
-	std::vector<T> bag_;
-public:
-	Bag () {
-	}
-
-	T operator[] (size_t idx) {
-		return bag_[idx];
-	}
-
-	void add (T x) {
-		bag_.push_back(x);
-	}
-};
 
 class Graph {
 private:
 	const int kV_;
 	int E_;
-	Bag<int> * adj;
+	Bag<int> * adj_;
 
 public:
-	Graph (int V) : kV_(V), E_(0) {
-		adj = new Bag<int>[V];
+	Graph (const int& V) : kV_(V), E_(0) {
+		adj_ = new Bag<int>[V];
 	}
 
 	int V () { return kV_; }
 	int E () { return E_; }
 
 	void AddEdge (int v, int w) {
-		adj[v].add(w);
-		adj[w].add(v);
+		adj_[v].Add(w);
+		adj_[w].Add(v);
 		E_++;
 	}
-	int TestAddEdge (int x, int i) {
-		return adj[x][i];
-	}
 
-	void Adj (int v) {
+	Bag<int>& Adj (int v) {
+		return adj_[v];
 	}
 
 	std::string ToString () {
