@@ -4,13 +4,10 @@
 /*TODO
 	- remove in iterator (without previous Node info?)
 done
-	- delete dynamically allocated momery
-	- hasnext in iterator
 */
 template <typename T>
 class Bag {
 private:
-public:
 	struct Node {
 		T item;
 		Node * next;
@@ -26,11 +23,12 @@ public:
 		}
 	}
 
+public:
 	class iterator {
 	private:
-	public:
 		Node * cur_;
 
+	public:
 		iterator(Node * node) : cur_(node) {}
 
 		iterator& operator++() {
