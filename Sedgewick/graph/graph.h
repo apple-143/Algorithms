@@ -4,15 +4,7 @@
 #include "./bag.h"
 #include <string>
 
-
 /*TODO
-	- Adj
-	- ToString
-	- destructor
-
-done
-	- constructor
-	- AddEdge
 */
 
 class Graph {
@@ -24,6 +16,9 @@ private:
 public:
 	Graph (const int& V) : kV_(V), E_(0) {
 		adj_ = new Bag<int>[V];
+	}
+	~Graph () {
+		delete[] adj_;
 	}
 
 	int V () { return kV_; }
@@ -40,6 +35,16 @@ public:
 	}
 
 	std::string ToString () {
+		std::string s = std::to_string(kV_) + " vertices, " + std::to_string(E_) + " edges\n";
+
+		for (int v=0; v<kV_; ++v) {
+			s += std::to_string(v) + ": ";
+			for (Bag<int>::iterator w = this->Adj(v).begin(); w != this->Adj(v).end(); ++w)
+				s += std::to_string(*w) + ' ';
+			s += '\n';
+		}
+
+		return s;
 	}
 };
 
