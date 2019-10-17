@@ -5,6 +5,7 @@
 #include <string>
 
 /*TODO
+	- contorl AddEdge same vertice
 */
 
 class Graph {
@@ -24,24 +25,24 @@ public:
 	int V () { return kV_; }
 	int E () { return E_; }
 
-	void AddEdge (int v, int w) {
+	void AddEdge (const int& v, const int& w) {
 		adj_[v].Add(w);
 		adj_[w].Add(v);
 		E_++;
 	}
 
-	Bag<int>& Adj (int v) {
+	Bag<int>& Adj (const int& v) {
 		return adj_[v];
 	}
 
 	std::string ToString () {
-		std::string s = std::to_string(kV_) + " vertices, " + std::to_string(E_) + " edges\n";
+		std::string s = std::to_string(kV_) + " vertices, " + std::to_string(E_) + " edges";
 
 		for (int v=0; v<kV_; ++v) {
+			s += '\n';
 			s += std::to_string(v) + ": ";
 			for (Bag<int>::iterator w = this->Adj(v).begin(); w != this->Adj(v).end(); ++w)
 				s += std::to_string(*w) + ' ';
-			s += '\n';
 		}
 
 		return s;
