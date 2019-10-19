@@ -2,7 +2,6 @@
 #define DEPTH_FIRST_SEARCH_TW_H_
 
 #include "./graph.h"
-#include <iostream>
 
 /*TODO
 */
@@ -11,28 +10,31 @@ private:
 	bool * marked;
 	int count;
 
+	void DFS(const Graph& G, int v) {
+		marked[v] = true;
+		++count;
+		for (auto it=G.Adj(v).begin(); it!=G.Adj(v).end(); ++it)
+			if (!marked[*it])
+				DFS(G, *it);
+	}
+
 public:
-	DepthFirstSearch(const Graph& G, int s) {
+	DepthFirstSearch(const Graph& G, int s) : count(0) {
 		marked = new bool[G.V()];
+		for (int i=0; i<G.V(); ++i)
+			marked[i] = false;
 		DFS(G, s);
 	}
 	~DepthFirstSearch() {
-		std::cout << "delete" << std::endl;
 		delete[] marked;
 	}
 
-	void DFS(const Graph& G, int v) {
-		marked[v] = true;
-		for (auto it=G.Adj(v).begin(); it!=G.Adj(v).end(); ++it) {
-			std::cout << *it << " ";
-		}
-	}
-
 	bool Marked(const int& v) {
-		return true;
+		return marked[v];
 	}
 
 	int Count() {
+		return count;
 	}
 };
 
