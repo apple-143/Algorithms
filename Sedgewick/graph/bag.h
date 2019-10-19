@@ -54,9 +54,9 @@ public:
 		first->next = old_first;
 	}
 
-	iterator begin() { return iterator(first); }
+	iterator begin() const { return iterator(first); }
 
-	iterator end() { return iterator(nullptr); }
+	iterator end() const { return iterator(nullptr); }
 
 	~Bag() {
 		while (first != nullptr)

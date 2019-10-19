@@ -22,8 +22,8 @@ public:
 		delete[] adj_;
 	}
 
-	int V () { return kV_; }
-	int E () { return E_; }
+	int V () const { return kV_; }
+	int E () const { return E_; }
 
 	void AddEdge (const int& v, const int& w) {
 		adj_[v].Add(w);
@@ -31,7 +31,7 @@ public:
 		E_++;
 	}
 
-	Bag<int>& Adj (const int& v) {
+	Bag<int>& Adj (const int& v) const {
 		return adj_[v];
 	}
 
