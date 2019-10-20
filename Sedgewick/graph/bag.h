@@ -13,12 +13,12 @@ private:
 		Node * next;
 	};
 
-	Node * first;
+	Node * first_;
 
 	void Delete() {
-		Node * tmp = first;
-		if (first != nullptr) {
-			first = first->next;
+		Node * tmp = first_;
+		if (first_ != nullptr) {
+			first_ = first_->next;
 			delete tmp;
 		}
 	}
@@ -45,21 +45,21 @@ public:
 		}
 	};
 
-	Bag() : first(nullptr) {}
+	Bag() : first_(nullptr) {}
 
 	void Add(T item) {
-		Node * old_first = first;
-		first = new Node;
-		first->item = item;
-		first->next = old_first;
+		Node * old_first = first_;
+		first_ = new Node;
+		first_->item = item;
+		first_->next = old_first;
 	}
 
-	iterator begin() const { return iterator(first); }
+	iterator begin() const { return iterator(first_); }
 
 	iterator end() const { return iterator(nullptr); }
 
 	~Bag() {
-		while (first != nullptr)
+		while (first_ != nullptr)
 			Delete();
 	}
 };
