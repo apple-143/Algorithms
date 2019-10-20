@@ -6,5 +6,8 @@ Sedgewick/algs4-data/
 # out
 *.out
 
-#tmp
+# tmp
 *.swp
+
+# txt
+*.txt
