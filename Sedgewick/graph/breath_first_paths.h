@@ -1,6 +1,7 @@
 #ifndef BREATH_FIRST_PATH_TW_H_
 #define BREATH_FIRST_PATH_TW_H_
 
+#include <queue>
 #include <list>
 #include "./graph.h"
 
@@ -13,16 +14,18 @@ private:
 	const int s_;
 
 	void BFS(const Graph& G, int v) {
+		std::queue<int> queue;
 		marked_[v] = true;
+		queue.enqueue(v);
 
-/*
 		for (auto it=G.Adj(v).begin(); it!=G.Adj(v).end(); ++it) {
 			if (!marked_[*it]) {
+/*
 				edge_to_[*it] = v;
 				DFS(G, *it);
+*/
 			}
 		}
-*/
 	}
 
 public:
@@ -30,11 +33,12 @@ public:
 		marked_ = new bool[G.V()];
 		edge_to_ = new int[G.V()];
 
-/*
-		for (int i=0; i<G.V(); ++i)
+		for (int i=0; i<G.V(); ++i) {
 			marked_[i] = false;
-		DFS(G, s);
+/*
+			DFS(G, s);
 */
+		}
 	}
 	~BreathFirstPaths() {
 		delete[] marked_;
