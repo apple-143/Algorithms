@@ -1,16 +1,17 @@
 #ifndef SYMBOL_GRAPH_TW_H_
 #define SYMBOL_GRAPH_TW_H_
 
+#include <string>
+#include "./red_black_binary_search_tree.h"
 #include "./graph.h"
+
+typedef RedBlackBST<std::string, int> ST;
 
 /*TODO
 */
 class SymbolGraph {
 private:
-/*
-	bool * marked_;
-	bool has_cycle_;
-*/
+	ST st;
 
 /*
 	void DFS(const Graph& G, int v, int w) {
@@ -36,17 +37,23 @@ public:
 				DFS(G, i, i);
 */
 	}
-	~SymbolGraph() {
-/*
-		delete[] marked_;
-*/
+	SymbolGraph(std::string filename, std::string delim) {
 	}
 
-/*
-	bool HasCycle() {
-		return has_cycle_;
+	~SymbolGraph() {
 	}
-*/
+
+	bool Contains(std::string key) {
+	}
+
+	int Index(std::string key) {
+	}
+
+	std::string Name(int v) {
+	}
+
+	Graph G() {
+	}
 };
 
 #endif	// SYMBOL_GRAPH__TW_H_
