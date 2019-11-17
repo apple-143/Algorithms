@@ -290,6 +290,16 @@ public:
 	}
 	Value Get(Key key)
 	{ return Get(root_, key); }
+	bool Contains(Key key)
+	{
+		try {
+			Get(root_, key);
+			return true;
+		} catch (int err) {
+			return false;
+		}
+		
+	}
 
 	Key Min()
 	{ return Min(root_)->key; }
