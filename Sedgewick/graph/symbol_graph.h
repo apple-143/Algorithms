@@ -1,17 +1,21 @@
 #ifndef SYMBOL_GRAPH_TW_H_
 #define SYMBOL_GRAPH_TW_H_
 
+#include <fstream>
+#include <iostream>
 #include <string>
 #include "./red_black_binary_search_tree.h"
 #include "./graph.h"
 
-typedef RedBlackBST<std::string, int> ST;
+using ST = RedBlackBST<std::string, int>;
 
 /*TODO
 */
 class SymbolGraph {
 private:
-	ST st;
+	ST * st;
+	std::string * keys;
+	Graph * g;
 
 /*
 	void DFS(const Graph& G, int v, int w) {
@@ -26,7 +30,7 @@ private:
 */
 
 public:
-	SymbolGraph(const Graph& G) {
+	SymbolGraph() {
 /*
 		marked_ = new bool[G.V()];
 		for (int i=0; i<G.V(); ++i)
@@ -37,7 +41,42 @@ public:
 				DFS(G, i, i);
 */
 	}
-	SymbolGraph(std::string filename, std::string delim) {
+	SymbolGraph(const char * filename, const char delim) {
+		std::ifstream in(filename);
+		if (!in.is_open())
+			throw -1;
+
+		st = new ST();
+
+		std::string s, tmp;
+		std::vector<std::string> a;
+		size_t start;
+		size_t pos;
+		while (in) {
+			a.clear();
+			getline(in, s);
+
+			start = 0;
+			while ((pos = s.find(delim, start)) != std::string::npos) {
+				if (!(start == pos)) {
+					tmp = s.substr(start, pos-start);
+					a.push_back(tmp);
+				}
+				start = pos+1;
+			}
+			if (start != s.size())
+				a.push_back(s.substr(start, s.size()-start));
+
+			for (int i=0; i<a.size(); ++i) {
+				if (!st->Contains(a[i]))
+					st->Put(a[i], st->Size());
+			}
+		}
+
+		//st->PrintTree();
+		st->PrintTreeStructure();
+
+		//keys = new std::string[st->Size()];
 	}
 
 	~SymbolGraph() {
