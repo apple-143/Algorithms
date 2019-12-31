@@ -1,6 +1,6 @@
 # Test
-Sedgewick/test/
-Sedgewick/algs4-data/
+Sedgewick*/test/
+Sedgewick*/algs4-data/
 *test.cpp
 
 # out
@@ -11,3 +11,6 @@ Sedgewick/algs4-data/
 
 # txt
 *.txt
+
+# class
+*.class
