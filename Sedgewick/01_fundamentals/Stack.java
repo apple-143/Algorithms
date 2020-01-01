@@ -15,7 +15,7 @@ public class Stack<Item> implements Iterable<Item>
 		Node next = null;
 	}
 
-	Stack()
+	public Stack()
 	{
 		first = null;
 		N = 0;
