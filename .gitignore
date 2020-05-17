@@ -2,6 +2,7 @@
 Sedgewick*/test/
 Sedgewick*/algs4-data/
 *test.cpp
+*test.java
 
 # out
 *.out
