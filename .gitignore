@@ -1,6 +1,6 @@
 # Test
-Sedgewick*/test/
-Sedgewick*/algs4-data/
+sedgewick*/test/
+sedgewick*/algs4-data/
 *test.cpp
 *test.java
 
@@ -14,4 +14,5 @@ Sedgewick*/algs4-data/
 *.txt
 
 # class
+*/classes/
 *.class
