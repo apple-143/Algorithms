@@ -13,6 +13,8 @@ sedgewick*/algs4-data/
 # txt
 *.txt
 
-# class
-*/classes/
-*.class
+# build
+sedgewick/build/
+
+# resource
+sedgewick*/resources/

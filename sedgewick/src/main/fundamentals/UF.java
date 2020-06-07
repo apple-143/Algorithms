@@ -1,3 +1,5 @@
+package fundamentals;
+
 abstract class UF {
     protected int[] id;
     protected int count;

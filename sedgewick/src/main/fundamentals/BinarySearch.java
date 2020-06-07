@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.In;
+package fundamentals;
 
 public class BinarySearch
 {
@@ -19,18 +16,5 @@ public class BinarySearch
 		}
 
 		return -1;
-	}
-
-	public static void main(String[] args)
-	{
-		In in = new In(args[0]);
-		int[] whitelist = in.readAllInts();
-		Arrays.sort(whitelist);
-		while (!StdIn.isEmpty())
-		{
-			int key = StdIn.readInt();
-			if (rank(key, whitelist) == -1)
-				StdOut.println(key);
-		}
 	}
 }
