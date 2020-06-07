@@ -1,3 +1,5 @@
+package fundamentals;
+
 public class Stopwatch {
     private final long start;
 
@@ -6,7 +8,7 @@ public class Stopwatch {
     }
 
     public double elapsedTime() {
-        long now = System.currentTimeMilles();
+        long now = System.currentTimeMillis();
         return (now - start) / 1000.0;
     }
 }
