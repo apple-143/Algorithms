@@ -6,6 +6,7 @@ import edu.princeton.cs.algs4.StdOut;
 
 class BasicSorting {
     public static void sort(Comparable[] a) {
+        System.out.println("not implemented");
         return;
     }
 
