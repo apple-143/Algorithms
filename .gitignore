@@ -1,6 +1,5 @@
 # Test
-sedgewick*/test/
-sedgewick*/algs4-data/
+sedgewick/src/test/
 *test.cpp
 *test.java
 
@@ -17,4 +16,4 @@ sedgewick*/algs4-data/
 sedgewick/build/
 
 # resource
-sedgewick*/resources/
+sedgewick/resources/
