@@ -14,7 +14,7 @@ public class Transaction implements Comparable<Transaction> {
     }
 
     public Transaction(String transaction) {
-        String[] fields = transaction.split(" ");
+        String[] fields = transaction.split(" +");
         who = fields[0];
         when = new Date(fields[1]);
         amount = Double.parseDouble(fields[2]);
@@ -26,14 +26,14 @@ public class Transaction implements Comparable<Transaction> {
     public Date when()
     { return when; }
 
-    public double amount
+    public double amount()
     { return amount; }
 
     public String toString() {
         return who + " " + when + " " + amount;
     }
 
-    boolean equals(Object x) {
+    public boolean equals(Object x) {
         if (this == x) return true;
         if (x == null) return false;
         if (this.getClass() != x.getClass()) return false;
@@ -45,7 +45,7 @@ public class Transaction implements Comparable<Transaction> {
  
     }
 
-    int compareTo(Transaction that) {
+    public int compareTo(Transaction that) {
         if (this.amount > that.amount) return 1;
         if (this.amount < that.amount) return -1;
         return 0;
